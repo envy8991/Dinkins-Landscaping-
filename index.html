@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>[Insert Business Name] | Professional Landscaping Services</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-SnH5WK+bZxgPHs44uWix+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkR4j8RykR0l8CGM3YhH2Pzef2QYfM4c6TAA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Tailwind Theme Extension -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              forest: "#1B4332",
+              slatebrand: "#2D3142",
+              cta: "#FB8500",
+            },
+            fontFamily: {
+              heading: ["Montserrat", "ui-sans-serif", "system-ui", "sans-serif"],
+              body: ["Lora", "ui-serif", "Georgia", "serif"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Lora", Georgia, serif;
+      }
+
+      .hero-bg {
+        background-image: linear-gradient(
+            rgba(27, 67, 50, 0.72),
+            rgba(45, 49, 66, 0.78)
+          ),
+          url("https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1800&q=80");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .portfolio-card img {
+        transition: transform 350ms ease;
+      }
+
+      .portfolio-card:hover img {
+        transform: scale(1.04);
+      }
+    </style>
+  </head>
+  <body class="bg-white text-slatebrand font-body antialiased">
+    <!-- Navigation -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex h-20 items-center justify-between">
+          <a href="#" class="font-heading text-2xl font-extrabold tracking-tight text-forest">
+            [Insert Business Name]
+          </a>
+          <div class="hidden md:flex items-center gap-8 font-heading text-sm uppercase tracking-wide text-slatebrand">
+            <a href="#services" class="hover:text-forest transition-colors duration-300">Services</a>
+            <a href="#portfolio" class="hover:text-forest transition-colors duration-300">Portfolio</a>
+            <a
+              href="#contact"
+              class="inline-flex items-center rounded-md bg-cta px-5 py-2.5 text-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:bg-orange-600"
+            >
+              Get a Quote
+            </a>
+          </div>
+          <button id="menuToggle" class="md:hidden text-forest text-2xl" aria-label="Toggle menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+        <div id="mobileMenu" class="md:hidden hidden pb-4">
+          <div class="flex flex-col gap-4 font-heading text-sm uppercase tracking-wide">
+            <a href="#services" class="hover:text-forest transition-colors">Services</a>
+            <a href="#portfolio" class="hover:text-forest transition-colors">Portfolio</a>
+            <a href="#contact" class="rounded-md bg-cta px-4 py-2 text-white w-max">Get a Quote</a>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Hero Section -->
+      <section class="hero-bg min-h-screen flex items-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 w-full">
+          <div class="max-w-3xl">
+            <p class="font-heading text-sm md:text-base uppercase tracking-[0.2em] text-orange-200 mb-5">
+              Elegant Craftsmanship in Every Detail
+            </p>
+            <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-white">
+              Your Outdoor Oasis, Professionally Crafted.
+            </h1>
+            <p class="mt-6 text-lg md:text-xl text-slate-100 max-w-2xl">
+              Expert residential and commercial landscaping services in the [Your Area] region.
+            </p>
+            <a
+              href="#contact"
+              class="mt-10 inline-flex items-center gap-2 rounded-md bg-cta px-7 py-3.5 font-heading text-sm uppercase tracking-wide text-white transition duration-300 hover:-translate-y-0.5 hover:bg-orange-600"
+            >
+              Get a Free Estimate
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section id="services" class="py-20 md:py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center max-w-2xl mx-auto">
+            <h2 class="font-heading text-3xl sm:text-4xl font-bold text-forest">Professional Landscaping Services</h2>
+            <p class="mt-4 text-base sm:text-lg text-slate-600">
+              From complete landscape transformations to routine care, our team delivers durable, beautiful outdoor results.
+            </p>
+          </div>
+
+          <div class="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <article class="group rounded-xl bg-white p-7 shadow-sm border border-slate-100 transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div class="h-12 w-12 rounded-lg bg-forest/10 text-forest flex items-center justify-center text-xl">
+                <i class="fa-solid fa-trowel-bricks"></i>
+              </div>
+              <h3 class="mt-5 font-heading text-2xl font-bold text-slatebrand">Hardscaping</h3>
+              <p class="mt-3 text-slate-600">
+                Patios, walkways, retaining walls, and outdoor living spaces designed for longevity and curb appeal.
+              </p>
+            </article>
+
+            <article class="group rounded-xl bg-white p-7 shadow-sm border border-slate-100 transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div class="h-12 w-12 rounded-lg bg-forest/10 text-forest flex items-center justify-center text-xl">
+                <i class="fa-solid fa-seedling"></i>
+              </div>
+              <h3 class="mt-5 font-heading text-2xl font-bold text-slatebrand">Lawn Maintenance</h3>
+              <p class="mt-3 text-slate-600">
+                Seasonal mowing, edging, fertilization, and cleanup services that keep your property pristine year-round.
+              </p>
+            </article>
+
+            <article class="group rounded-xl bg-white p-7 shadow-sm border border-slate-100 transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+              <div class="h-12 w-12 rounded-lg bg-forest/10 text-forest flex items-center justify-center text-xl">
+                <i class="fa-solid fa-drafting-compass"></i>
+              </div>
+              <h3 class="mt-5 font-heading text-2xl font-bold text-slatebrand">Landscape Design</h3>
+              <p class="mt-3 text-slate-600">
+                Thoughtful, custom designs that blend plantings, textures, and structures for a cohesive outdoor experience.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Portfolio Section -->
+      <section id="portfolio" class="py-20 md:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <h2 class="font-heading text-3xl sm:text-4xl font-bold text-forest">Before &amp; After Portfolio</h2>
+            <p class="text-slate-600">A glimpse at transformations completed by our crew.</p>
+          </div>
+
+          <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <figure class="portfolio-card overflow-hidden rounded-xl border border-slate-200">
+              <img
+                src="https://images.unsplash.com/photo-1560749003-f4b1e17e2f1f?auto=format&fit=crop&w=900&q=80"
+                alt="Before and after front yard landscaping project"
+                class="h-64 w-full object-cover"
+              />
+              <figcaption class="p-4 bg-white text-slate-700">Front Yard Revamp</figcaption>
+            </figure>
+
+            <figure class="portfolio-card overflow-hidden rounded-xl border border-slate-200">
+              <img
+                src="https://images.unsplash.com/photo-1598901847919-b95dd0fabbb1?auto=format&fit=crop&w=900&q=80"
+                alt="Before and after backyard patio installation"
+                class="h-64 w-full object-cover"
+              />
+              <figcaption class="p-4 bg-white text-slate-700">Patio &amp; Walkway Upgrade</figcaption>
+            </figure>
+
+            <figure class="portfolio-card overflow-hidden rounded-xl border border-slate-200">
+              <img
+                src="https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5?auto=format&fit=crop&w=900&q=80"
+                alt="Before and after garden bed redesign"
+                class="h-64 w-full object-cover"
+              />
+              <figcaption class="p-4 bg-white text-slate-700">Garden Bed Transformation</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- Trust Bar -->
+      <section class="bg-forest py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 text-center text-white">
+            <div>
+              <p class="font-heading text-xl font-bold">Fully Insured</p>
+            </div>
+            <div>
+              <p class="font-heading text-xl font-bold">Certified Pros</p>
+            </div>
+            <div>
+              <p class="font-heading text-xl font-bold">Family Owned</p>
+            </div>
+            <div>
+              <p class="font-heading text-xl font-bold">Free Estimates</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section id="contact" class="py-20 md:py-24 bg-slate-50">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-10">
+            <h2 class="font-heading text-3xl sm:text-4xl font-bold text-forest">Request Your Free Quote</h2>
+            <p class="mt-4 text-slate-600">
+              Tell us about your project and we will follow up with a customized estimate.
+            </p>
+          </div>
+
+          <form class="rounded-2xl bg-white p-6 sm:p-8 shadow-sm border border-slate-100 space-y-5" novalidate>
+            <div>
+              <label for="name" class="block text-sm font-heading text-slatebrand mb-2">Name</label>
+              <input
+                id="name"
+                type="text"
+                placeholder="Jane Smith"
+                class="w-full rounded-md border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest/50"
+              />
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm font-heading text-slatebrand mb-2">Email</label>
+              <input
+                id="email"
+                type="email"
+                placeholder="name@example.com"
+                class="w-full rounded-md border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest/50"
+              />
+            </div>
+
+            <div>
+              <label for="service" class="block text-sm font-heading text-slatebrand mb-2">Service Type</label>
+              <select
+                id="service"
+                class="w-full rounded-md border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest/50"
+              >
+                <option value="">Select a service</option>
+                <option>Hardscaping</option>
+                <option>Lawn Maintenance</option>
+                <option>Landscape Design</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="message" class="block text-sm font-heading text-slatebrand mb-2">Message</label>
+              <textarea
+                id="message"
+                rows="5"
+                placeholder="Tell us about your goals, timeline, and property details."
+                class="w-full rounded-md border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest/50"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full rounded-md bg-cta px-5 py-3.5 text-white font-heading uppercase tracking-wide transition duration-300 hover:bg-orange-600"
+            >
+              Send Request
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slatebrand text-slate-200 py-10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <p class="font-heading text-xl text-white">[Insert Business Name]</p>
+            <p class="mt-2 text-sm">123 Greenway Drive, [Your Area], ST 00000 · (555) 123-4567</p>
+          </div>
+          <div class="flex items-center gap-4 text-xl">
+            <a href="#" aria-label="Facebook" class="hover:text-white transition-colors"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#" aria-label="Instagram" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn" class="hover:text-white transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+          </div>
+        </div>
+        <p class="mt-8 text-xs text-slate-400">© <span id="year"></span> [Insert Business Name]. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Toggle mobile navigation menu.
+      const menuToggle = document.getElementById("menuToggle");
+      const mobileMenu = document.getElementById("mobileMenu");
+      menuToggle.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Dynamically set current year in footer.
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dinkins Land Management</title>
+    <title>Dinkins Land Management | Land Clearing & Excavation in West Tennessee</title>
+    <meta name="description" content="Dinkins Land Management provides excavation, land clearing, drainage, and grading in West Tennessee. Fast quotes, licensed and insured." />
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -55,10 +56,8 @@
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex h-20 items-center justify-between">
           <a href="#" class="flex items-center gap-3 group">
-            <div class="text-brandOrange transition-transform group-hover:scale-110">
-               <i class="fa-solid fa-tractor text-3xl"></i>
-            </div>
-            <span class="font-heading text-xl md:text-3xl font-black tracking-tighter text-brandDark uppercase">
+            <img src="https://firebasestorage.googleapis.com/v0/b/dinkins-7adf1.firebasestorage.app/o/PNG%20image.png?alt=media" alt="Dinkins Land Management logo" class="h-14 w-14 object-contain drop-shadow-md" loading="eager" />
+            <span class="font-heading text-lg md:text-2xl font-black tracking-tight text-brandDark uppercase leading-none">
               Dinkins <span class="text-brandOrange">Land Management</span>
             </span>
           </a>
@@ -91,10 +90,10 @@
         <div class="max-w-7xl mx-auto px-4 py-24 text-white">
           <p class="font-heading text-sm md:text-base uppercase tracking-[0.3em] text-brandOrange mb-5 font-black">Licensed & Insured</p>
           <h1 class="text-4xl md:text-7xl font-black font-heading max-w-4xl leading-tight uppercase tracking-tight">
-            Professional <br/><span class="text-brandOrange">Land Management.</span>
+            Professional <br/><span class="text-brandOrange">Land Development.</span>
           </h1>
           <p class="mt-8 text-xl text-slate-300 max-w-2xl leading-relaxed font-medium">
-            Heavy-duty land clearing, excavation, and professional landscaping services tailored to your property's needs.
+            Heavy-duty land clearing, excavation, drainage, and grading services tailored to your property's goals and timeline.
           </p>
           <div class="mt-12 flex flex-wrap gap-4">
             <a href="#contact" class="inline-flex items-center gap-3 bg-brandOrange px-8 py-4 rounded font-heading text-sm uppercase font-black text-white hover:bg-orange-600 transition-all hover:scale-105 shadow-xl">
@@ -104,6 +103,13 @@
               <i class="fa-solid fa-phone"></i> Call Now
             </a>
           </div>
+        </div>
+      </section>
+      <section class="bg-brandDark text-white py-10 border-y-4 border-brandOrange">
+        <div class="max-w-7xl mx-auto px-4 grid sm:grid-cols-3 gap-6 text-center">
+          <div><p class="text-3xl font-heading font-black">24-48h</p><p class="text-slate-300 text-sm uppercase tracking-wider">Quote Turnaround</p></div>
+          <div><p class="text-3xl font-heading font-black">Licensed</p><p class="text-slate-300 text-sm uppercase tracking-wider">And Fully Insured</p></div>
+          <div><p class="text-3xl font-heading font-black">Local</p><p class="text-slate-300 text-sm uppercase tracking-wider">West Tennessee Team</p></div>
         </div>
       </section>
 
@@ -149,6 +155,8 @@
               <form id="quoteForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input type="hidden" name="_subject" value="New Lead from Dinkins Land Management Website!">
                 <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_replyto" value="email">
                 
                 <input name="name" type="text" placeholder="Your Name" required class="w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange outline-none transition" />
                 <input name="email" type="email" placeholder="Your Email" required class="w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange outline-none transition" />
@@ -163,7 +171,7 @@
                 </select>
                 <textarea name="message" rows="4" placeholder="Tell us about your project..." required class="md:col-span-2 w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange outline-none transition"></textarea>
                 
-                <button type="submit" class="md:col-span-2 bg-brandOrange py-5 text-white font-heading font-black rounded hover:bg-orange-600 transition uppercase tracking-widest shadow-lg text-lg">
+                <button id="submitBtn" type="submit" class="md:col-span-2 bg-brandOrange py-5 text-white font-heading font-black rounded hover:bg-orange-600 transition uppercase tracking-widest shadow-lg text-lg disabled:opacity-60">
                   Send Request
                 </button>
                 <p id="formStatus" class="md:col-span-2 text-center text-sm font-bold"></p>
@@ -177,7 +185,7 @@
     <footer class="bg-brandDark text-slate-400 py-16 border-t border-slate-800">
       <div class="max-w-7xl mx-auto px-4 text-center">
         <div class="flex items-center justify-center gap-3 mb-6">
-           <i class="fa-solid fa-tractor text-brandOrange text-3xl"></i>
+           <img src="https://firebasestorage.googleapis.com/v0/b/dinkins-7adf1.firebasestorage.app/o/PNG%20image.png?alt=media" alt="Dinkins Land Management logo" class="h-12 w-12 object-contain" loading="lazy" />
            <span class="text-white font-heading font-black text-2xl md:text-3xl uppercase tracking-tighter">Dinkins <span class="text-brandOrange">Land Management</span></span>
         </div>
         <p class="text-sm max-w-sm mx-auto mb-6 leading-relaxed font-bold text-slate-300">Licensed & Insured</p>
@@ -206,38 +214,44 @@
         mobileMenu.classList.toggle("hidden");
       });
 
-      // AJAX Form Handling to send straight to email via FormSubmit
+      // AJAX Form handling via FormSubmit with clearer error feedback
       const quoteForm = document.getElementById("quoteForm");
       const formStatus = document.getElementById("formStatus");
+      const submitBtn = document.getElementById("submitBtn");
 
       quoteForm.addEventListener("submit", async (e) => {
         e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
         formStatus.textContent = "Sending message...";
         formStatus.className = "md:col-span-2 text-center text-sm mt-4 text-brandOrange";
-        
+
         const formData = new FormData(quoteForm);
 
         try {
           const response = await fetch("https://formsubmit.co/ajax/qathom8991@gmail.com", {
             method: "POST",
             body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
+            headers: { Accept: "application/json" },
           });
-          
-          if (response.ok) {
+
+          const result = await response.json();
+
+          if (response.ok && result.success === "true") {
             formStatus.className = "md:col-span-2 text-green-400 text-center mt-4 font-bold text-lg tracking-wide";
             formStatus.textContent = "✓ Success! We will reach out to you soon.";
             quoteForm.reset();
           } else {
-            throw new Error("Network response was not ok");
+            throw new Error(result.message || "Form submission failed");
           }
         } catch (err) {
-          formStatus.className = "md:col-span-2 text-red-400 text-center mt-4 font-bold";
-          formStatus.textContent = "Error sending request. Please call us directly at (731) 694-6818.";
+          formStatus.className = "md:col-span-2 text-amber-300 text-center mt-4 font-bold";
+          formStatus.textContent = "If this is your first form submission, open the FormSubmit activation email for qathom8991@gmail.com, then try again. Or call (731) 694-6818.";
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send Request";
         }
       });
-    </script>
+</script>
   </body>
 </html>

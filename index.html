@@ -242,13 +242,19 @@
             </p>
           </div>
 
-          <form class="rounded-2xl bg-white p-6 sm:p-8 shadow-sm border border-slate-100 space-y-5" novalidate>
+          <form
+            id="quoteForm"
+            class="rounded-2xl bg-white p-6 sm:p-8 shadow-sm border border-slate-100 space-y-5"
+            novalidate
+          >
             <div>
               <label for="name" class="block text-sm font-heading text-slatebrand mb-2">Name</label>
               <input
                 id="name"
+                name="name"
                 type="text"
                 placeholder="Jane Smith"
+                required
                 class="w-full rounded-md border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest/50"
               />
             </div>
@@ -257,8 +263,10 @@
               <label for="email" class="block text-sm font-heading text-slatebrand mb-2">Email</label>
               <input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="name@example.com"
+                required
                 class="w-full rounded-md border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest/50"
               />
             </div>
@@ -267,6 +275,8 @@
               <label for="service" class="block text-sm font-heading text-slatebrand mb-2">Service Type</label>
               <select
                 id="service"
+                name="service"
+                required
                 class="w-full rounded-md border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest/50"
               >
                 <option value="">Select a service</option>
@@ -280,8 +290,10 @@
               <label for="message" class="block text-sm font-heading text-slatebrand mb-2">Message</label>
               <textarea
                 id="message"
+                name="message"
                 rows="5"
                 placeholder="Tell us about your goals, timeline, and property details."
+                required
                 class="w-full rounded-md border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest/50"
               ></textarea>
             </div>
@@ -292,6 +304,7 @@
             >
               Send Request
             </button>
+            <p id="formStatus" class="text-sm text-slate-600" role="status" aria-live="polite"></p>
           </form>
         </div>
       </section>
@@ -325,6 +338,83 @@
 
       // Dynamically set current year in footer.
       document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
+      import {
+        getFirestore,
+        collection,
+        addDoc,
+        serverTimestamp,
+      } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDtl82JalzxfVM5Xzw2OHuAo-kN23IsoiU",
+        authDomain: "dinkins-7adf1.firebaseapp.com",
+        projectId: "dinkins-7adf1",
+        storageBucket: "dinkins-7adf1.firebasestorage.app",
+        messagingSenderId: "7113023718",
+        appId: "1:7113023718:web:5750b93701c8aadf6cdb27",
+        measurementId: "G-HY2NMC2PBQ",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      getAnalytics(app);
+      const db = getFirestore(app);
+
+      const quoteForm = document.getElementById("quoteForm");
+      const formStatus = document.getElementById("formStatus");
+      const submitButton = quoteForm.querySelector('button[type="submit"]');
+
+      quoteForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!quoteForm.checkValidity()) {
+          formStatus.textContent = "Please fill out all required fields before sending.";
+          formStatus.className = "text-sm text-red-700";
+          quoteForm.reportValidity();
+          return;
+        }
+
+        const payload = {
+          to: ["your-email@example.com"],
+          replyTo: quoteForm.email.value.trim(),
+          message: {
+            subject: `New ${quoteForm.service.value} quote request from ${quoteForm.name.value.trim()}`,
+            text: [
+              `Name: ${quoteForm.name.value.trim()}`,
+              `Email: ${quoteForm.email.value.trim()}`,
+              `Service: ${quoteForm.service.value}`,
+              "",
+              "Project Details:",
+              quoteForm.message.value.trim(),
+            ].join("\n"),
+          },
+          submittedAt: serverTimestamp(),
+        };
+
+        submitButton.disabled = true;
+        submitButton.classList.add("opacity-70", "cursor-not-allowed");
+        formStatus.textContent = "Sending your request...";
+        formStatus.className = "text-sm text-slate-600";
+
+        try {
+          await addDoc(collection(db, "mail"), payload);
+          formStatus.textContent = "Thanks! Your request has been sent. We will contact you soon.";
+          formStatus.className = "text-sm text-green-700";
+          quoteForm.reset();
+        } catch (error) {
+          console.error("Quote form submit failed", error);
+          formStatus.textContent =
+            "Sorry, there was an issue sending your request. Please try again in a moment.";
+          formStatus.className = "text-sm text-red-700";
+        } finally {
+          submitButton.disabled = false;
+          submitButton.classList.remove("opacity-70", "cursor-not-allowed");
+        }
+      });
     </script>
   </body>
 </html>

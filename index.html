@@ -3,24 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dinkins Land Management</title>
+    <title>Dinkins Land Management | Land Clearing & Excavation in West Tennessee</title>
+    <meta name="description" content="Dinkins Land Management provides excavation, land clearing, drainage, and grading in West Tennessee. Fast quotes, licensed and insured." />
 
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
     <script>
       tailwind.config = {
         theme: {
           extend: {
-            colors: {
-              brandDark: "#111111", /* Deep black/slate from the shield */
-              brandOrange: "#FF6B00", /* Equipment orange from excavator/trim */
-              brandGreen: "#2b591b", /* Deep green from the pine trees */
-            },
+            colors: { brandDark: "#111111", brandOrange: "#FF6B00", brandGreen: "#2b591b" },
             fontFamily: {
               heading: ["Montserrat", "ui-sans-serif", "system-ui", "sans-serif"],
               body: ["Roboto", "ui-sans-serif", "system-ui", "sans-serif"],
@@ -32,10 +25,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Roboto:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,800;0,900;1,900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
 
     <style>
       html { scroll-behavior: smooth; }
@@ -46,8 +36,6 @@
         background-size: cover;
         background-position: center;
       }
-      .portfolio-card img { transition: transform 350ms ease; }
-      .portfolio-card:hover img { transform: scale(1.04); }
     </style>
   </head>
   <body class="bg-white text-brandDark font-body antialiased">
@@ -55,31 +43,20 @@
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex h-20 items-center justify-between">
           <a href="#" class="flex items-center gap-3 group">
-            <div class="text-brandOrange transition-transform group-hover:scale-110">
-               <i class="fa-solid fa-tractor text-3xl"></i>
-            </div>
-            <span class="font-heading text-xl md:text-3xl font-black tracking-tighter text-brandDark uppercase">
-              Dinkins <span class="text-brandOrange">Land Management</span>
-            </span>
+            <img src="https://firebasestorage.googleapis.com/v0/b/dinkins-7adf1.firebasestorage.app/o/PNG%20image.png?alt=media" alt="Dinkins Land Management logo" class="h-14 w-14 object-contain drop-shadow-md" loading="eager" />
+            <span class="font-heading text-lg md:text-2xl font-black tracking-tight text-brandDark uppercase leading-none">Dinkins <span class="text-brandOrange">Land Management</span></span>
           </a>
-          
           <div class="hidden md:flex items-center gap-8 font-heading text-sm uppercase tracking-wide">
             <a href="#services" class="hover:text-brandOrange transition-colors font-bold">Services</a>
-            <a href="tel:7316946818" class="text-brandDark hover:text-brandOrange transition-colors font-black text-lg">
-              <i class="fa-solid fa-phone mr-1 text-brandOrange"></i> (731) 694-6818
-            </a>
-            <a href="#contact" class="bg-brandOrange px-6 py-2.5 text-white rounded shadow-md hover:bg-orange-600 transition-all hover:-translate-y-0.5 font-bold">
-              Get a Quote
-            </a>
+            <a href="#gallery" class="hover:text-brandOrange transition-colors font-bold">Gallery</a>
+            <a href="tel:7316946818" class="text-brandDark hover:text-brandOrange transition-colors font-black text-lg"><i class="fa-solid fa-phone mr-1 text-brandOrange"></i> (731) 694-6818</a>
+            <a href="#contact" class="bg-brandOrange px-6 py-2.5 text-white rounded shadow-md hover:bg-orange-600 transition-all hover:-translate-y-0.5 font-bold">Get a Quote</a>
           </div>
-
-          <button id="menuToggle" class="md:hidden text-brandDark text-2xl" aria-label="Toggle menu">
-            <i class="fa-solid fa-bars"></i>
-          </button>
+          <button id="menuToggle" class="md:hidden text-brandDark text-2xl" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
         </div>
-
         <div id="mobileMenu" class="md:hidden hidden pb-6 flex flex-col gap-4 uppercase text-sm font-heading font-bold border-t border-slate-200 pt-4">
           <a href="#services" class="hover:text-brandOrange px-2">Services</a>
+          <a href="#gallery" class="hover:text-brandOrange px-2">Gallery</a>
           <a href="tel:7316946818" class="hover:text-brandOrange px-2 text-lg"><i class="fa-solid fa-phone mr-1"></i> (731) 694-6818</a>
           <a href="#contact" class="bg-brandOrange px-4 py-3 text-white w-full text-center rounded shadow-sm">Get a Quote</a>
         </div>
@@ -90,20 +67,20 @@
       <section class="hero-bg min-h-screen flex items-center">
         <div class="max-w-7xl mx-auto px-4 py-24 text-white">
           <p class="font-heading text-sm md:text-base uppercase tracking-[0.3em] text-brandOrange mb-5 font-black">Licensed & Insured</p>
-          <h1 class="text-4xl md:text-7xl font-black font-heading max-w-4xl leading-tight uppercase tracking-tight">
-            Professional <br/><span class="text-brandOrange">Land Management.</span>
-          </h1>
-          <p class="mt-8 text-xl text-slate-300 max-w-2xl leading-relaxed font-medium">
-            Heavy-duty land clearing, excavation, and professional landscaping services tailored to your property's needs.
-          </p>
+          <h1 class="text-4xl md:text-7xl font-black font-heading max-w-4xl leading-tight uppercase tracking-tight">Professional <br/><span class="text-brandOrange">Land Development.</span></h1>
+          <p class="mt-8 text-xl text-slate-300 max-w-2xl leading-relaxed font-medium">Heavy-duty land clearing, excavation, drainage, and grading services tailored to your property's goals and timeline.</p>
           <div class="mt-12 flex flex-wrap gap-4">
-            <a href="#contact" class="inline-flex items-center gap-3 bg-brandOrange px-8 py-4 rounded font-heading text-sm uppercase font-black text-white hover:bg-orange-600 transition-all hover:scale-105 shadow-xl">
-              Start Your Project <i class="fa-solid fa-arrow-right"></i>
-            </a>
-            <a href="tel:7316946818" class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/30 px-8 py-4 rounded font-heading text-sm uppercase font-black hover:bg-white/20 transition-all">
-              <i class="fa-solid fa-phone"></i> Call Now
-            </a>
+            <a href="#contact" class="inline-flex items-center gap-3 bg-brandOrange px-8 py-4 rounded font-heading text-sm uppercase font-black text-white hover:bg-orange-600 transition-all hover:scale-105 shadow-xl">Start Your Project <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="tel:7316946818" class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/30 px-8 py-4 rounded font-heading text-sm uppercase font-black hover:bg-white/20 transition-all"><i class="fa-solid fa-phone"></i> Call Now</a>
           </div>
+        </div>
+      </section>
+
+      <section class="bg-brandDark text-white py-10 border-y-4 border-brandOrange">
+        <div class="max-w-7xl mx-auto px-4 grid sm:grid-cols-3 gap-6 text-center">
+          <div><p class="text-3xl font-heading font-black">24-48h</p><p class="text-slate-300 text-sm uppercase tracking-wider">Quote Turnaround</p></div>
+          <div><p class="text-3xl font-heading font-black">Licensed</p><p class="text-slate-300 text-sm uppercase tracking-wider">And Fully Insured</p></div>
+          <div><p class="text-3xl font-heading font-black">Local</p><p class="text-slate-300 text-sm uppercase tracking-wider">West Tennessee Team</p></div>
         </div>
       </section>
 
@@ -113,26 +90,18 @@
           <div class="h-2 w-24 bg-brandOrange mx-auto mt-6 rounded-full"></div>
         </div>
         <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-3 gap-8">
-          <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-brandOrange hover:shadow-xl transition-shadow">
-            <div class="h-16 w-16 rounded bg-brandDark text-brandOrange flex items-center justify-center text-3xl mb-6 shadow-inner">
-              <i class="fa-solid fa-truck-ramp-box"></i>
-            </div>
-            <h3 class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight">Excavation</h3>
-            <p class="text-slate-600 leading-relaxed">Professional grading, trenching, and dirt work to prep your land for any major project.</p>
-          </div>
-          <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-brandOrange hover:shadow-xl transition-shadow">
-            <div class="h-16 w-16 rounded bg-brandDark text-brandOrange flex items-center justify-center text-3xl mb-6 shadow-inner">
-              <i class="fa-solid fa-tree"></i>
-            </div>
-            <h3 class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight">Land Clearing</h3>
-            <p class="text-slate-600 leading-relaxed">Brush removal, tree clearing, and stump grinding to take back your overgrown property.</p>
-          </div>
-          <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-brandOrange hover:shadow-xl transition-shadow">
-            <div class="h-16 w-16 rounded bg-brandDark text-brandOrange flex items-center justify-center text-3xl mb-6 shadow-inner">
-              <i class="fa-solid fa-trowel-bricks"></i>
-            </div>
-            <h3 class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight">Hardscaping</h3>
-            <p class="text-slate-600 leading-relaxed">Custom retaining walls, drainage solutions, and structural landscaping built to last.</p>
+          <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-brandOrange"><h3 class="text-2xl font-black font-heading mb-4 uppercase">Excavation</h3><p class="text-slate-600">Professional grading, trenching, and dirt work to prep your land for any major project.</p></div>
+          <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-brandOrange"><h3 class="text-2xl font-black font-heading mb-4 uppercase">Land Clearing</h3><p class="text-slate-600">Brush removal, tree clearing, and stump grinding to take back your overgrown property.</p></div>
+          <div class="bg-white p-8 rounded-lg shadow-md border-b-4 border-brandOrange"><h3 class="text-2xl font-black font-heading mb-4 uppercase">Hardscaping</h3><p class="text-slate-600">Custom retaining walls, drainage solutions, and structural landscaping built to last.</p></div>
+        </div>
+      </section>
+
+      <section id="gallery" class="py-24 bg-white border-y border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+          <h2 class="text-4xl md:text-5xl font-black text-brandDark font-heading uppercase tracking-tight">Project Gallery</h2>
+          <p class="mt-6 text-lg text-slate-600 max-w-2xl mx-auto">Coming soon — we're preparing before/after project photos and videos.</p>
+          <div class="mt-10 border-2 border-dashed border-brandOrange rounded-xl p-12 bg-slate-50">
+            <p class="text-2xl font-heading font-black uppercase text-brandDark">Gallery Coming Soon</p>
           </div>
         </div>
       </section>
@@ -141,31 +110,23 @@
         <div class="max-w-4xl mx-auto px-4">
           <div class="bg-brandDark rounded-xl p-8 md:p-12 shadow-2xl overflow-hidden relative border-4 border-slate-800">
             <div class="absolute top-0 right-0 w-full h-2 bg-brandOrange"></div>
-            
             <div class="relative z-10">
               <h2 class="text-3xl md:text-5xl font-black text-white font-heading text-center mb-4 uppercase tracking-tight">Request a Quote</h2>
               <p class="text-slate-400 text-center mb-10 text-lg">Or give us a call directly at <a href="tel:7316946818" class="text-brandOrange font-bold hover:underline">(731) 694-6818</a></p>
-
               <form id="quoteForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input type="hidden" name="_subject" value="New Lead from Dinkins Land Management Website!">
-                <input type="hidden" name="_captcha" value="false">
-                
-                <input name="name" type="text" placeholder="Your Name" required class="w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange outline-none transition" />
-                <input name="email" type="email" placeholder="Your Email" required class="w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange outline-none transition" />
-                <input name="phone" type="tel" placeholder="Your Phone Number" required class="md:col-span-2 w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange outline-none transition" />
-                <select name="service" required class="md:col-span-2 w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white outline-none transition appearance-none focus:border-brandOrange">
-                  <option value="" class="text-slate-400">Select a Service Needed</option>
+                <input name="name" type="text" placeholder="Your Name" required class="w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white" />
+                <input name="email" type="email" placeholder="Your Email" required class="w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white" />
+                <input name="phone" type="tel" placeholder="Your Phone Number" required class="md:col-span-2 w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white" />
+                <select name="service" required class="md:col-span-2 w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white">
+                  <option value="">Select a Service Needed</option>
                   <option>Land Clearing / Brush Removal</option>
                   <option>Excavation / Dirt Work</option>
                   <option>Drainage / Trenching</option>
                   <option>Hardscaping / Retaining Walls</option>
                   <option>General Inquiry</option>
                 </select>
-                <textarea name="message" rows="4" placeholder="Tell us about your project..." required class="md:col-span-2 w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange outline-none transition"></textarea>
-                
-                <button type="submit" class="md:col-span-2 bg-brandOrange py-5 text-white font-heading font-black rounded hover:bg-orange-600 transition uppercase tracking-widest shadow-lg text-lg">
-                  Send Request
-                </button>
+                <textarea name="message" rows="4" placeholder="Tell us about your project..." required class="md:col-span-2 w-full bg-slate-900 border border-slate-700 rounded px-5 py-4 text-white"></textarea>
+                <button id="submitBtn" type="submit" class="md:col-span-2 bg-brandOrange py-5 text-white font-heading font-black rounded uppercase tracking-widest shadow-lg text-lg disabled:opacity-60">Send Request</button>
                 <p id="formStatus" class="md:col-span-2 text-center text-sm font-bold"></p>
               </form>
             </div>
@@ -177,65 +138,70 @@
     <footer class="bg-brandDark text-slate-400 py-16 border-t border-slate-800">
       <div class="max-w-7xl mx-auto px-4 text-center">
         <div class="flex items-center justify-center gap-3 mb-6">
-           <i class="fa-solid fa-tractor text-brandOrange text-3xl"></i>
-           <span class="text-white font-heading font-black text-2xl md:text-3xl uppercase tracking-tighter">Dinkins <span class="text-brandOrange">Land Management</span></span>
+          <img src="https://firebasestorage.googleapis.com/v0/b/dinkins-7adf1.firebasestorage.app/o/PNG%20image.png?alt=media" alt="Dinkins Land Management logo" class="h-12 w-12 object-contain" loading="lazy" />
+          <span class="text-white font-heading font-black text-2xl md:text-3xl uppercase tracking-tighter">Dinkins <span class="text-brandOrange">Land Management</span></span>
         </div>
         <p class="text-sm max-w-sm mx-auto mb-6 leading-relaxed font-bold text-slate-300">Licensed & Insured</p>
-        
-        <div class="mb-10">
-          <a href="tel:7316946818" class="text-2xl font-heading font-black text-white hover:text-brandOrange transition-colors">
-            (731) 694-6818
-          </a>
-        </div>
-
-        <div class="border-t border-slate-800 pt-8">
-          <p class="text-xs uppercase tracking-widest font-bold">© <span id="year"></span> Dinkins Land Management. All rights reserved.</p>
-        </div>
+        <div class="mb-10"><a href="tel:7316946818" class="text-2xl font-heading font-black text-white hover:text-brandOrange transition-colors">(731) 694-6818</a></div>
+        <div class="border-t border-slate-800 pt-8"><p class="text-xs uppercase tracking-widest font-bold">© <span id="year"></span> Dinkins Land Management. All rights reserved.</p></div>
       </div>
     </footer>
 
-    <script>
-      // Footer Year
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      import { getFirestore, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "dinkins-7adf1.firebaseapp.com",
+        projectId: "dinkins-7adf1",
+        storageBucket: "dinkins-7adf1.firebasestorage.app",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
       document.getElementById("year").textContent = new Date().getFullYear();
-      
-      // Mobile Menu
       const menuToggle = document.getElementById("menuToggle");
       const mobileMenu = document.getElementById("mobileMenu");
-      
-      menuToggle.addEventListener("click", () => {
-        mobileMenu.classList.toggle("hidden");
-      });
+      menuToggle.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
 
-      // AJAX Form Handling to send straight to email via FormSubmit
       const quoteForm = document.getElementById("quoteForm");
       const formStatus = document.getElementById("formStatus");
+      const submitBtn = document.getElementById("submitBtn");
 
       quoteForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        formStatus.textContent = "Sending message...";
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Sending...";
         formStatus.className = "md:col-span-2 text-center text-sm mt-4 text-brandOrange";
-        
-        const formData = new FormData(quoteForm);
+        formStatus.textContent = "Sending your quote request...";
+
+        const payload = Object.fromEntries(new FormData(quoteForm).entries());
 
         try {
-          const response = await fetch("https://formsubmit.co/ajax/qathom8991@gmail.com", {
-            method: "POST",
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
+          await addDoc(collection(db, "mail"), {
+            to: ["your-email@example.com"],
+            message: {
+              subject: `New Website Quote Request: ${payload.name}`,
+              text: `Name: ${payload.name}\nEmail: ${payload.email}\nPhone: ${payload.phone}\nService: ${payload.service}\n\nMessage:\n${payload.message}`,
+              html: `<h2>New Website Quote Request</h2><p><strong>Name:</strong> ${payload.name}</p><p><strong>Email:</strong> ${payload.email}</p><p><strong>Phone:</strong> ${payload.phone}</p><p><strong>Service:</strong> ${payload.service}</p><p><strong>Message:</strong><br/>${payload.message}</p>`
+            },
+            createdAt: serverTimestamp(),
+            source: "website"
           });
-          
-          if (response.ok) {
-            formStatus.className = "md:col-span-2 text-green-400 text-center mt-4 font-bold text-lg tracking-wide";
-            formStatus.textContent = "✓ Success! We will reach out to you soon.";
-            quoteForm.reset();
-          } else {
-            throw new Error("Network response was not ok");
-          }
-        } catch (err) {
+
+          formStatus.className = "md:col-span-2 text-green-400 text-center mt-4 font-bold text-lg";
+          formStatus.textContent = "✓ Success! We will reach out to you soon.";
+          quoteForm.reset();
+        } catch {
           formStatus.className = "md:col-span-2 text-red-400 text-center mt-4 font-bold";
-          formStatus.textContent = "Error sending request. Please call us directly at (731) 694-6818.";
+          formStatus.textContent = "We couldn't send your request. Please call us directly at (731) 694-6818.";
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Send Request";
         }
       });
     </script>

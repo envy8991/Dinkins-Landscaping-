@@ -1,15 +1,23 @@
 # Dinkins-Landscaping-
 
-## Firebase-powered quote email flow
+## Reliable Firebase-powered quote email flow
 
-The contact form in `index.html` now writes requests to a Firestore `mail` collection in the format expected by Firebase's **Trigger Email** extension.
+The contact form now writes quote requests to a Firestore `mail` collection, which is picked up by Firebase's **Trigger Email** extension (`firestore-send-email`).
 
-### One-time setup
+## Setup (required)
 
-1. In Firebase Console, enable **Cloud Firestore** for project `dinkins-7adf1`.
-2. Install the extension: **Extensions → Trigger Email (firestore-send-email)**.
-3. Configure the extension with your SMTP provider (Gmail, SendGrid, Mailgun, etc.).
-4. In `index.html`, replace `your-email@example.com` with your real business email.
-5. Deploy your site and test by submitting the quote form.
+1. In Firebase Console, enable **Cloud Firestore** for `dinkins-7adf1`.
+2. Deploy Firestore rules from this repo:
+   ```bash
+   firebase deploy --only firestore:rules
+   ```
+3. Install extension: **Extensions → Trigger Email (firestore-send-email)**.
+4. Configure SMTP in the extension (SendGrid/Mailgun/Gmail).
+5. In `index.html`, replace:
+   - `YOUR_API_KEY`
+   - `YOUR_MESSAGING_SENDER_ID`
+   - `YOUR_APP_ID`
+   - `your-email@example.com`
+6. Deploy hosting and submit a test quote.
 
-When a document is added to `mail`, the extension sends the email to your configured inbox.
+Once configured, every form submit creates a Firestore document and the extension sends a real email from your SMTP provider.

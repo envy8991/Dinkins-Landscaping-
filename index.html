@@ -1,10 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dinkins Land Management | Land Clearing & Excavation in West Tennessee</title>
-    <meta name="description" content="Dinkins Land Management provides excavation, land clearing, drainage, and grading in West Tennessee. Fast quotes, licensed and insured." />
+    <title>
+      Dinkins Land Management | Land Clearing & Excavation in West Tennessee
+    </title>
+    <meta
+      name="description"
+      content="Dinkins Land Management provides excavation, land clearing, drainage, and grading in West Tennessee. Fast quotes, licensed and insured."
+    />
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -18,12 +23,17 @@
         theme: {
           extend: {
             colors: {
-              brandDark: "#111111", 
-              brandOrange: "#FF6B00", 
-              brandGreen: "#2b591b", 
+              brandDark: "#111111",
+              brandOrange: "#FF6B00",
+              brandGreen: "#2b591b",
             },
             fontFamily: {
-              heading: ["Montserrat", "ui-sans-serif", "system-ui", "sans-serif"],
+              heading: [
+                "Montserrat",
+                "ui-sans-serif",
+                "system-ui",
+                "sans-serif",
+              ],
               body: ["Roboto", "ui-sans-serif", "system-ui", "sans-serif"],
             },
           },
@@ -39,26 +49,69 @@
     />
 
     <style>
-      html { scroll-behavior: smooth; }
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 6rem;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
       body {
         font-family: "Roboto", sans-serif;
         background:
-          radial-gradient(circle at 10% 10%, rgba(255, 107, 0, 0.10), transparent 28rem),
+          radial-gradient(
+            circle at 10% 10%,
+            rgba(255, 107, 0, 0.1),
+            transparent 28rem
+          ),
           linear-gradient(180deg, #f8fafc 0%, #eef2f7 48%, #ffffff 100%);
+      }
+      .hero-section {
+        min-height: calc(100vh - 5rem);
+        min-height: calc(100svh - 5rem);
       }
       .hero-bg {
         background-image:
-          radial-gradient(circle at 18% 28%, rgba(255, 107, 0, 0.28), transparent 18rem),
-          radial-gradient(circle at 88% 18%, rgba(43, 89, 27, 0.38), transparent 22rem),
-          linear-gradient(110deg, rgba(17, 17, 17, 0.88), rgba(17, 17, 17, 0.66) 48%, rgba(17, 17, 17, 0.82)),
+          radial-gradient(
+            circle at 18% 28%,
+            rgba(255, 107, 0, 0.28),
+            transparent 18rem
+          ),
+          radial-gradient(
+            circle at 88% 18%,
+            rgba(43, 89, 27, 0.38),
+            transparent 22rem
+          ),
+          linear-gradient(
+            110deg,
+            rgba(17, 17, 17, 0.88),
+            rgba(17, 17, 17, 0.66) 48%,
+            rgba(17, 17, 17, 0.82)
+          ),
           url("https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=1800&q=80");
         background-size: cover;
         background-position: center;
       }
       .glass-panel {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.06));
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.16),
+          rgba(255, 255, 255, 0.06)
+        );
         border: 1px solid rgba(255, 255, 255, 0.24);
-        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+        box-shadow:
+          0 28px 80px rgba(0, 0, 0, 0.34),
+          inset 0 1px 0 rgba(255, 255, 255, 0.22);
         backdrop-filter: blur(22px) saturate(145%);
         -webkit-backdrop-filter: blur(22px) saturate(145%);
       }
@@ -70,9 +123,15 @@
         pointer-events: none;
       }
       .glass-card {
-        background: linear-gradient(145deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.56));
+        background: linear-gradient(
+          145deg,
+          rgba(255, 255, 255, 0.82),
+          rgba(255, 255, 255, 0.56)
+        );
         border: 1px solid rgba(255, 255, 255, 0.85);
-        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        box-shadow:
+          0 20px 45px rgba(15, 23, 42, 0.08),
+          inset 0 1px 0 rgba(255, 255, 255, 0.9);
         backdrop-filter: blur(16px) saturate(135%);
         -webkit-backdrop-filter: blur(16px) saturate(135%);
       }
@@ -81,12 +140,19 @@
         position: absolute;
         inset: 0;
         border-radius: inherit;
-        background: linear-gradient(120deg, rgba(255, 255, 255, 0.74), transparent 38%, rgba(255, 107, 0, 0.10));
+        background: linear-gradient(
+          120deg,
+          rgba(255, 255, 255, 0.74),
+          transparent 38%,
+          rgba(255, 107, 0, 0.1)
+        );
         opacity: 0;
         transition: opacity 300ms ease;
         pointer-events: none;
       }
-      .glass-card:hover::before { opacity: 1; }
+      .glass-card:hover::before {
+        opacity: 1;
+      }
       .section-glow::before,
       .section-glow::after {
         content: "";
@@ -110,69 +176,154 @@
         background: rgba(43, 89, 27, 0.12);
         filter: blur(28px);
       }
-      .portfolio-card img { transition: transform 350ms ease; }
-      .portfolio-card:hover img { transform: scale(1.04); }
+      .portfolio-card img {
+        transition: transform 350ms ease;
+      }
+      .portfolio-card:hover img {
+        transform: scale(1.04);
+      }
     </style>
   </head>
   <body class="bg-slate-50 text-brandDark font-body antialiased">
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b-2 border-brandOrange shadow-sm">
+    <header
+      class="sticky top-0 z-50 bg-white/90 backdrop-blur-lg border-b-2 border-brandOrange shadow-sm"
+    >
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex h-20 items-center justify-between">
           <a href="#" class="flex items-center gap-3 group">
-            <img src="https://firebasestorage.googleapis.com/v0/b/dinkins-7adf1.firebasestorage.app/o/PNG%20image.png?alt=media&token=a4d67453-dd43-4cb1-9528-bf8713ff732c" alt="Dinkins Land Management logo" class="h-14 w-14 object-contain drop-shadow-md transition-transform group-hover:scale-105" loading="eager" />
-            <span class="font-heading text-lg md:text-2xl font-black tracking-tight text-brandDark uppercase leading-none">
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/dinkins-7adf1.firebasestorage.app/o/PNG%20image.png?alt=media&token=a4d67453-dd43-4cb1-9528-bf8713ff732c"
+              alt="Dinkins Land Management logo"
+              class="h-14 w-14 object-contain drop-shadow-md transition-transform group-hover:scale-105"
+              loading="eager"
+            />
+            <span
+              class="font-heading text-lg md:text-2xl font-black tracking-tight text-brandDark uppercase leading-none"
+            >
               Dinkins <span class="text-brandOrange">Land Management</span>
             </span>
           </a>
-          
-          <div class="hidden md:flex items-center gap-8 font-heading text-sm uppercase tracking-wide">
-            <a href="#services" class="text-slate-600 hover:text-brandOrange transition-colors font-bold">Services</a>
-            <a href="tel:7316946818" class="text-brandDark hover:text-brandOrange transition-colors font-black text-lg">
-              <i class="fa-solid fa-phone mr-1 text-brandOrange"></i> (731) 694-6818
+
+          <div
+            class="hidden md:flex items-center gap-8 font-heading text-sm uppercase tracking-wide"
+          >
+            <a
+              href="#services"
+              class="text-slate-600 hover:text-brandOrange transition-colors font-bold"
+              >Services</a
+            >
+            <a
+              href="tel:7316946818"
+              class="text-brandDark hover:text-brandOrange transition-colors font-black text-lg"
+            >
+              <i class="fa-solid fa-phone mr-1 text-brandOrange"></i> (731)
+              694-6818
             </a>
-            <a href="#contact" class="bg-brandOrange px-7 py-2.5 text-white rounded-full shadow-md hover:bg-orange-600 hover:shadow-lg transition-all hover:-translate-y-0.5 font-bold">
+            <a
+              href="#contact"
+              class="bg-brandOrange px-7 py-2.5 text-white rounded-full shadow-md hover:bg-orange-600 hover:shadow-lg transition-all hover:-translate-y-0.5 font-bold"
+            >
               Get a Quote
             </a>
           </div>
 
-          <button id="menuToggle" class="md:hidden text-brandDark text-2xl" aria-label="Toggle menu">
+          <button
+            id="menuToggle"
+            class="md:hidden text-brandDark text-2xl"
+            aria-label="Toggle menu"
+          >
             <i class="fa-solid fa-bars"></i>
           </button>
         </div>
 
-        <div id="mobileMenu" class="md:hidden hidden pb-6 flex flex-col gap-4 uppercase text-sm font-heading font-bold border-t border-slate-200 pt-4">
-          <a href="#services" class="hover:text-brandOrange px-2 mobile-link">Services</a>
-          <a href="tel:7316946818" class="hover:text-brandOrange px-2 text-lg"><i class="fa-solid fa-phone mr-1"></i> (731) 694-6818</a>
-          <a href="#contact" class="bg-brandOrange px-4 py-3 text-white w-full text-center rounded-lg shadow-sm mobile-link">Get a Quote</a>
+        <div
+          id="mobileMenu"
+          class="md:hidden hidden pb-6 flex flex-col gap-4 uppercase text-sm font-heading font-bold border-t border-slate-200 pt-4"
+        >
+          <a href="#services" class="hover:text-brandOrange px-2 mobile-link"
+            >Services</a
+          >
+          <a href="tel:7316946818" class="hover:text-brandOrange px-2 text-lg"
+            ><i class="fa-solid fa-phone mr-1"></i> (731) 694-6818</a
+          >
+          <a
+            href="#contact"
+            class="bg-brandOrange px-4 py-3 text-white w-full text-center rounded-lg shadow-sm mobile-link"
+            >Get a Quote</a
+          >
         </div>
       </nav>
     </header>
 
     <main>
-      <section class="hero-bg min-h-screen flex items-center relative overflow-hidden">
-        <div class="liquid-orb h-52 w-52 bg-brandOrange/25 -left-20 top-28"></div>
-        <div class="liquid-orb h-72 w-72 bg-brandGreen/30 right-[-7rem] bottom-20"></div>
+      <section
+        class="hero-bg hero-section flex items-center relative overflow-hidden"
+      >
+        <div
+          class="liquid-orb h-52 w-52 bg-brandOrange/25 -left-20 top-28"
+        ></div>
+        <div
+          class="liquid-orb h-72 w-72 bg-brandGreen/30 right-[-7rem] bottom-20"
+        ></div>
         <div class="liquid-orb h-32 w-32 bg-white/15 right-1/4 top-24"></div>
-        <div class="max-w-7xl mx-auto px-4 py-24 text-white relative z-10 w-full">
-          <div class="glass-panel rounded-[2rem] md:rounded-[3rem] p-7 md:p-12 max-w-5xl overflow-hidden relative">
-            <div class="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-brandOrange/20 blur-3xl"></div>
-            <p class="font-heading text-sm md:text-base uppercase tracking-[0.3em] text-brandOrange mb-5 font-black drop-shadow-md">Licensed & Insured</p>
-            <h1 class="text-5xl md:text-7xl font-black font-heading max-w-4xl leading-tight uppercase tracking-tight drop-shadow-lg">
-              Expert Land Work, <br/><span class="text-brandOrange">Done Right</span>
-            </h1>
-            <p class="mt-6 text-xl text-slate-100 max-w-3xl leading-relaxed font-medium drop-shadow-md">
-              From gravel driveways and excavation to small land clearing, grading, and drainage solutions, we prepare residential and commercial properties with precision, care, and reliable results.
+        <div
+          class="max-w-7xl mx-auto px-4 py-24 text-white relative z-10 w-full"
+        >
+          <div
+            class="glass-panel rounded-[2rem] md:rounded-[3rem] p-7 md:p-12 max-w-5xl overflow-hidden relative"
+          >
+            <div
+              class="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-brandOrange/20 blur-3xl"
+            ></div>
+            <p
+              class="font-heading text-sm md:text-base uppercase tracking-[0.3em] text-brandOrange mb-5 font-black drop-shadow-md"
+            >
+              Licensed & Insured
             </p>
-            <div class="mt-8 flex flex-wrap gap-3 text-sm font-heading font-black uppercase tracking-wider text-white/90">
-              <span class="rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md"><i class="fa-solid fa-road text-brandOrange mr-2"></i>Driveways</span>
-              <span class="rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md"><i class="fa-solid fa-water text-brandOrange mr-2"></i>Drainage</span>
-              <span class="rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md"><i class="fa-solid fa-mountain-sun text-brandOrange mr-2"></i>Grading</span>
+            <h1
+              class="text-5xl md:text-7xl font-black font-heading max-w-4xl leading-tight uppercase tracking-tight drop-shadow-lg"
+            >
+              Expert Land Work, <br /><span class="text-brandOrange"
+                >Done Right</span
+              >
+            </h1>
+            <p
+              class="mt-6 text-xl text-slate-100 max-w-3xl leading-relaxed font-medium drop-shadow-md"
+            >
+              From gravel driveways and excavation to small land clearing,
+              grading, and drainage solutions, we prepare residential and
+              commercial properties with precision, care, and reliable results.
+            </p>
+            <div
+              class="mt-8 flex flex-wrap gap-3 text-sm font-heading font-black uppercase tracking-wider text-white/90"
+            >
+              <span
+                class="rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md"
+                ><i class="fa-solid fa-road text-brandOrange mr-2"></i
+                >Driveways</span
+              >
+              <span
+                class="rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md"
+                ><i class="fa-solid fa-water text-brandOrange mr-2"></i
+                >Drainage</span
+              >
+              <span
+                class="rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md"
+                ><i class="fa-solid fa-mountain-sun text-brandOrange mr-2"></i
+                >Grading</span
+              >
             </div>
             <div class="mt-10 flex flex-wrap gap-4">
-              <a href="#contact" class="inline-flex items-center gap-3 bg-brandOrange px-8 py-4 rounded-full font-heading text-sm uppercase font-black text-white hover:bg-orange-600 transition-all hover:scale-105 shadow-xl shadow-orange-950/20">
+              <a
+                href="#contact"
+                class="inline-flex items-center gap-3 bg-brandOrange px-8 py-4 rounded-full font-heading text-sm uppercase font-black text-white hover:bg-orange-600 transition-all hover:scale-105 shadow-xl shadow-orange-950/20"
+              >
                 Start Your Project <i class="fa-solid fa-arrow-right"></i>
               </a>
-              <a href="tel:7316946818" class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/30 px-8 py-4 rounded-full font-heading text-sm uppercase font-black hover:bg-white/20 transition-all">
+              <a
+                href="tel:7316946818"
+                class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/30 px-8 py-4 rounded-full font-heading text-sm uppercase font-black hover:bg-white/20 transition-all"
+              >
                 <i class="fa-solid fa-phone"></i> Call Now
               </a>
             </div>
@@ -180,113 +331,253 @@
         </div>
       </section>
 
-      <section class="bg-brandDark text-white py-12 border-b-4 border-brandOrange shadow-inner relative overflow-hidden">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,107,0,0.18),transparent_28%),radial-gradient(circle_at_80%_80%,rgba(43,89,27,0.28),transparent_30%)]"></div>
-        <div class="max-w-7xl mx-auto px-4 grid sm:grid-cols-3 gap-8 text-center relative z-10">
-          <div class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-md shadow-2xl shadow-black/10">
-            <p class="text-3xl font-heading font-black text-brandOrange"><i class="fa-solid fa-house-flag mb-2"></i></p>
+      <section
+        class="bg-brandDark text-white py-12 border-b-4 border-brandOrange shadow-inner relative overflow-hidden"
+      >
+        <div
+          class="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,107,0,0.18),transparent_28%),radial-gradient(circle_at_80%_80%,rgba(43,89,27,0.28),transparent_30%)]"
+        ></div>
+        <div
+          class="max-w-7xl mx-auto px-4 grid sm:grid-cols-3 gap-8 text-center relative z-10"
+        >
+          <div
+            class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-md shadow-2xl shadow-black/10"
+          >
+            <p class="text-3xl font-heading font-black text-brandOrange">
+              <i class="fa-solid fa-house-flag mb-2"></i>
+            </p>
             <p class="text-xl font-heading font-black mb-1">Locally Owned</p>
-            <p class="text-slate-400 text-sm uppercase tracking-wider font-bold">West Tennessee Business</p>
+            <p
+              class="text-slate-400 text-sm uppercase tracking-wider font-bold"
+            >
+              West Tennessee Business
+            </p>
           </div>
-          <div class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-md shadow-2xl shadow-black/10">
-            <p class="text-3xl font-heading font-black text-brandOrange"><i class="fa-solid fa-shield-halved mb-2"></i></p>
+          <div
+            class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-md shadow-2xl shadow-black/10"
+          >
+            <p class="text-3xl font-heading font-black text-brandOrange">
+              <i class="fa-solid fa-shield-halved mb-2"></i>
+            </p>
             <p class="text-xl font-heading font-black mb-1">Licensed</p>
-            <p class="text-slate-400 text-sm uppercase tracking-wider font-bold">And Fully Insured</p>
+            <p
+              class="text-slate-400 text-sm uppercase tracking-wider font-bold"
+            >
+              And Fully Insured
+            </p>
           </div>
-          <div class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-md shadow-2xl shadow-black/10">
-            <p class="text-3xl font-heading font-black text-brandOrange"><i class="fa-solid fa-location-dot mb-2"></i></p>
-            <p class="text-xl font-heading font-black mb-1">Local</p>
-            <p class="text-slate-400 text-sm uppercase tracking-wider font-bold">West Tennessee Team</p>
+          <div
+            class="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-md shadow-2xl shadow-black/10"
+          >
+            <p class="text-3xl font-heading font-black text-brandOrange">
+              <i class="fa-solid fa-location-dot mb-2"></i>
+            </p>
+            <p class="text-xl font-heading font-black mb-1">Reliable</p>
+            <p
+              class="text-slate-400 text-sm uppercase tracking-wider font-bold"
+            >
+              West Tennessee Team
+            </p>
           </div>
         </div>
       </section>
 
-      <section id="services" class="py-24 bg-slate-50 relative overflow-hidden section-glow">
+      <section
+        id="services"
+        class="py-24 bg-slate-50 relative overflow-hidden section-glow"
+      >
         <div class="max-w-7xl mx-auto px-4 text-center mb-16 relative z-10">
-          <p class="font-heading text-sm uppercase tracking-[0.3em] text-brandOrange font-black mb-3">Built for Dirt, Gravel & Water Control</p>
-          <h2 class="text-4xl md:text-5xl font-black text-brandDark font-heading uppercase tracking-tight">What We Do</h2>
-          <div class="h-1.5 w-24 bg-brandOrange mx-auto mt-6 rounded-full"></div>
+          <p
+            class="font-heading text-sm uppercase tracking-[0.3em] text-brandOrange font-black mb-3"
+          >
+            Built for Dirt, Gravel & Water Control
+          </p>
+          <h2
+            class="text-4xl md:text-5xl font-black text-brandDark font-heading uppercase tracking-tight"
+          >
+            What We Do
+          </h2>
+          <div
+            class="h-1.5 w-24 bg-brandOrange mx-auto mt-6 rounded-full"
+          ></div>
         </div>
-        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 lg:grid-cols-5 gap-8 relative z-10">
-          
-          <div class="group glass-card relative p-10 rounded-2xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
-            <div class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300">
-              <i class="fa-solid fa-bullseye"></i>
-            </div>
-            <h3 class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight">Precision Site Prep</h3>
-            <p class="text-slate-600 leading-relaxed">Precision site prep for clean, accurate grading and trenching that gets your project started right.</p>
-          </div>
-
-          <div class="group glass-card relative p-10 rounded-2xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
-            <div class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300">
+        <div
+          class="max-w-7xl mx-auto px-4 grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10"
+        >
+          <div
+            class="group glass-card relative p-10 rounded-2xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+          >
+            <div
+              class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300"
+            >
               <i class="fa-solid fa-tree"></i>
             </div>
-            <h3 class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight">Land Clearing</h3>
-            <p class="text-slate-600 leading-relaxed">Brush removal, tree clearing, and stump grinding to take back your overgrown property.</p>
+            <h3
+              class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight"
+            >
+              Land Clearing
+            </h3>
+            <p class="text-slate-600 leading-relaxed">
+              Brush removal, tree clearing, and stump grinding to take back your
+              overgrown property.
+            </p>
           </div>
 
-          <div class="group glass-card relative p-10 rounded-2xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
-            <div class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300">
+          <div
+            class="group glass-card relative p-10 rounded-2xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+          >
+            <div
+              class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300"
+            >
               <i class="fa-solid fa-trowel-bricks"></i>
             </div>
-            <h3 class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight">Hardscaping</h3>
-            <p class="text-slate-600 leading-relaxed">Custom retaining walls, drainage solutions, and structural landscaping built to last.</p>
+            <h3
+              class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight"
+            >
+              Hardscaping
+            </h3>
+            <p class="text-slate-600 leading-relaxed">
+              Custom retaining walls, drainage solutions, and structural
+              landscaping built to last.
+            </p>
           </div>
 
-
-          <div class="group glass-card relative p-10 rounded-2xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
-            <div class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300">
+          <div
+            class="group glass-card relative p-10 rounded-2xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+          >
+            <div
+              class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300"
+            >
               <i class="fa-solid fa-hammer"></i>
             </div>
-            <h3 class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight">Demolition</h3>
-            <p class="text-slate-600 leading-relaxed">Wreck out and removal from property.</p>
+            <h3
+              class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight"
+            >
+              Demolition
+            </h3>
+            <p class="text-slate-600 leading-relaxed">
+              Wreck out and removal from property.
+            </p>
           </div>
 
-          <div class="group glass-card relative p-10 rounded-2xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
-            <div class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300">
+          <div
+            class="group glass-card relative p-10 rounded-2xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+          >
+            <div
+              class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300"
+            >
               <i class="fa-solid fa-road"></i>
             </div>
-            <h3 class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight">Driveways</h3>
-            <p class="text-slate-600 leading-relaxed">Gravel driveway installs, driveway reconditioning, and resurfacing.</p>
+            <h3
+              class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight"
+            >
+              Driveways
+            </h3>
+            <p class="text-slate-600 leading-relaxed">
+              Gravel driveway installs, driveway reconditioning, and
+              resurfacing.
+            </p>
           </div>
         </div>
       </section>
 
       <section id="contact" class="py-24 bg-white relative overflow-hidden">
-        <div class="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-brandOrange/10 blur-3xl"></div>
+        <div
+          class="absolute -top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-brandOrange/10 blur-3xl"
+        ></div>
         <div class="max-w-4xl mx-auto px-4">
-          <div class="bg-brandDark rounded-3xl p-8 md:p-14 shadow-2xl shadow-slate-950/30 overflow-hidden relative border border-white/10">
-            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brandOrange to-orange-400"></div>
-            <div class="absolute -right-16 -top-20 h-56 w-56 rounded-full bg-brandOrange/20 blur-3xl"></div>
-            <div class="absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-brandGreen/20 blur-3xl"></div>
-            
+          <div
+            class="bg-brandDark rounded-3xl p-8 md:p-14 shadow-2xl shadow-slate-950/30 overflow-hidden relative border border-white/10"
+          >
+            <div
+              class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brandOrange to-orange-400"
+            ></div>
+            <div
+              class="absolute -right-16 -top-20 h-56 w-56 rounded-full bg-brandOrange/20 blur-3xl"
+            ></div>
+            <div
+              class="absolute -left-24 bottom-0 h-64 w-64 rounded-full bg-brandGreen/20 blur-3xl"
+            ></div>
+
             <div class="relative z-10">
-              <h2 class="text-3xl md:text-5xl font-black text-white font-heading text-center mb-4 uppercase tracking-tight">Request a Quote</h2>
+              <h2
+                class="text-3xl md:text-5xl font-black text-white font-heading text-center mb-4 uppercase tracking-tight"
+              >
+                Request a Quote
+              </h2>
               <p class="text-slate-400 text-center mb-12 text-lg">
                 Or give us a call directly at
-                <a href="tel:7316946818" class="block text-brandOrange font-bold hover:underline transition-all mt-2">(731) 694-6818</a>
+                <a
+                  href="tel:7316946818"
+                  class="block text-brandOrange font-bold hover:underline transition-all mt-2"
+                  >(731) 694-6818</a
+                >
               </p>
 
-              <form id="quoteForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input name="name" type="text" placeholder="Your Name" required class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange focus:bg-white/10 outline-none transition-all" />
-                <input name="email" type="email" placeholder="Your Email" required class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange focus:bg-white/10 outline-none transition-all" />
-                <input name="phone" type="tel" placeholder="Your Phone Number" required class="md:col-span-2 w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange focus:bg-white/10 outline-none transition-all" />
-                
-                <select name="service" required class="md:col-span-2 w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none transition-all appearance-none focus:border-brandOrange focus:bg-white/10">
-                  <option value="" class="text-slate-600">Select a Service Needed</option>
-                  <option class="text-slate-800">Land Clearing / Brush Removal</option>
+              <form
+                id="quoteForm"
+                class="grid grid-cols-1 md:grid-cols-2 gap-6"
+              >
+                <input
+                  name="name"
+                  type="text"
+                  placeholder="Your Name"
+                  required
+                  class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange focus:bg-white/10 outline-none transition-all"
+                />
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Your Email"
+                  required
+                  class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange focus:bg-white/10 outline-none transition-all"
+                />
+                <input
+                  name="phone"
+                  type="tel"
+                  placeholder="Your Phone Number"
+                  required
+                  class="md:col-span-2 w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange focus:bg-white/10 outline-none transition-all"
+                />
+
+                <select
+                  name="service"
+                  required
+                  class="md:col-span-2 w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white outline-none transition-all appearance-none focus:border-brandOrange focus:bg-white/10"
+                >
+                  <option value="" class="text-slate-600">
+                    Select a Service Needed
+                  </option>
+                  <option class="text-slate-800">
+                    Land Clearing / Brush Removal
+                  </option>
                   <option class="text-slate-800">Excavation / Dirt Work</option>
                   <option class="text-slate-800">Drainage / Trenching</option>
-                  <option class="text-slate-800">Hardscaping / Retaining Walls</option>
+                  <option class="text-slate-800">
+                    Hardscaping / Retaining Walls
+                  </option>
                   <option class="text-slate-800">General Inquiry</option>
                 </select>
-                
-                <textarea name="message" rows="4" placeholder="Tell us about your project..." required class="md:col-span-2 w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange focus:bg-white/10 outline-none transition-all"></textarea>
-                
-                <button id="submitBtn" type="submit" class="md:col-span-2 bg-brandOrange py-5 text-white font-heading font-black rounded-xl hover:bg-orange-500 hover:shadow-[0_0_20px_rgba(255,107,0,0.4)] transition-all uppercase tracking-widest text-lg disabled:opacity-60 mt-2">
+
+                <textarea
+                  name="message"
+                  rows="4"
+                  placeholder="Tell us about your project..."
+                  required
+                  class="md:col-span-2 w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder:text-slate-500 focus:border-brandOrange focus:ring-1 focus:ring-brandOrange focus:bg-white/10 outline-none transition-all"
+                ></textarea>
+
+                <button
+                  id="submitBtn"
+                  type="submit"
+                  class="md:col-span-2 bg-brandOrange py-5 text-white font-heading font-black rounded-xl hover:bg-orange-500 hover:shadow-[0_0_20px_rgba(255,107,0,0.4)] transition-all uppercase tracking-widest text-lg disabled:opacity-60 mt-2"
+                >
                   Send Request
                 </button>
-                <p id="formStatus" class="md:col-span-2 text-center text-sm font-bold"></p>
+                <p
+                  id="formStatus"
+                  class="md:col-span-2 text-center text-sm font-bold"
+                ></p>
               </form>
             </div>
           </div>
@@ -297,30 +588,56 @@
     <footer class="bg-brandDark text-slate-400 py-16 border-t border-slate-800">
       <div class="max-w-7xl mx-auto px-4 text-center">
         <div class="flex items-center justify-center gap-3 mb-6">
-           <img src="https://firebasestorage.googleapis.com/v0/b/dinkins-7adf1.firebasestorage.app/o/PNG%20image.png?alt=media&token=a4d67453-dd43-4cb1-9528-bf8713ff732c" alt="Dinkins Land Management logo" class="h-12 w-12 object-contain" loading="lazy" />
-           <span class="text-white font-heading font-black text-2xl md:text-3xl uppercase tracking-tighter">Dinkins <span class="text-brandOrange">Land Management</span></span>
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/dinkins-7adf1.firebasestorage.app/o/PNG%20image.png?alt=media&token=a4d67453-dd43-4cb1-9528-bf8713ff732c"
+            alt="Dinkins Land Management logo"
+            class="h-12 w-12 object-contain"
+            loading="lazy"
+          />
+          <span
+            class="text-white font-heading font-black text-2xl md:text-3xl uppercase tracking-tighter"
+            >Dinkins <span class="text-brandOrange">Land Management</span></span
+          >
         </div>
-        <p class="text-sm max-w-sm mx-auto mb-6 leading-relaxed font-bold text-slate-300">Licensed & Insured</p>
-        
+        <p
+          class="text-sm max-w-sm mx-auto mb-6 leading-relaxed font-bold text-slate-300"
+        >
+          Licensed & Insured
+        </p>
+
         <div class="mb-10">
-          <a href="tel:7316946818" class="text-2xl font-heading font-black text-white hover:text-brandOrange transition-colors">
+          <a
+            href="tel:7316946818"
+            class="text-2xl font-heading font-black text-white hover:text-brandOrange transition-colors"
+          >
             (731) 694-6818
           </a>
         </div>
 
         <div class="mb-10 flex flex-col items-center gap-4">
-          <a href="mailto:dinkinslandmgmt@gmail.com" class="inline-flex items-center gap-2 text-white hover:text-brandOrange transition-colors font-bold">
+          <a
+            href="mailto:dinkinslandmgmt@gmail.com"
+            class="inline-flex items-center gap-2 text-white hover:text-brandOrange transition-colors font-bold"
+          >
             <i class="fa-solid fa-envelope"></i>
             dinkinslandmgmt@gmail.com
           </a>
-          <a href="https://www.facebook.com/share/1EMjycvWiQ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-white hover:text-brandOrange transition-colors font-bold">
+          <a
+            href="https://www.facebook.com/share/1EMjycvWiQ/?mibextid=wwXIfr"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-white hover:text-brandOrange transition-colors font-bold"
+          >
             <i class="fa-brands fa-facebook"></i>
             Follow us on Facebook
           </a>
         </div>
 
         <div class="border-t border-slate-800 pt-8">
-          <p class="text-xs uppercase tracking-widest font-bold">© <span id="year"></span> Dinkins Land Management. All rights reserved.</p>
+          <p class="text-xs uppercase tracking-widest font-bold">
+            © <span id="year"></span> Dinkins Land Management. All rights
+            reserved.
+          </p>
         </div>
       </div>
     </footer>
@@ -328,14 +645,20 @@
     <script>
       // --- Footer Year ---
       document.getElementById("year").textContent = new Date().getFullYear();
-      
+
       // --- Mobile Menu ---
       const menuToggle = document.getElementById("menuToggle");
       const mobileMenu = document.getElementById("mobileMenu");
       const mobileLinks = document.querySelectorAll(".mobile-link");
-      
-      menuToggle.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
-      mobileLinks.forEach(link => link.addEventListener("click", () => mobileMenu.classList.add("hidden")));
+
+      menuToggle.addEventListener("click", () =>
+        mobileMenu.classList.toggle("hidden"),
+      );
+      mobileLinks.forEach((link) =>
+        link.addEventListener("click", () =>
+          mobileMenu.classList.add("hidden"),
+        ),
+      );
 
       // --- Contact Form Submission to Web3Forms ---
       const quoteForm = document.getElementById("quoteForm");
@@ -347,7 +670,8 @@
         submitBtn.disabled = true;
         submitBtn.textContent = "Sending...";
         formStatus.textContent = "Processing...";
-        formStatus.className = "md:col-span-2 text-center text-sm mt-4 text-brandOrange";
+        formStatus.className =
+          "md:col-span-2 text-center text-sm mt-4 text-brandOrange";
 
         const formData = new FormData(quoteForm);
         formData.append("access_key", "452a7e4e-d19c-4d8f-a88e-cce0385f5fbc");
@@ -367,13 +691,16 @@
             throw new Error(result.message || "Unable to send request");
           }
 
-          formStatus.className = "md:col-span-2 text-green-400 text-center mt-4 font-bold text-lg tracking-wide";
+          formStatus.className =
+            "md:col-span-2 text-green-400 text-center mt-4 font-bold text-lg tracking-wide";
           formStatus.textContent = "✓ Success! We will reach out to you soon.";
           quoteForm.reset();
         } catch (err) {
           console.error("Error sending form: ", err);
-          formStatus.className = "md:col-span-2 text-red-500 text-center mt-4 font-bold";
-          formStatus.textContent = "Error sending message. Please call us at (731) 694-6818.";
+          formStatus.className =
+            "md:col-span-2 text-red-500 text-center mt-4 font-bold";
+          formStatus.textContent =
+            "Error sending message. Please call us at (731) 694-6818.";
         } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = "Send Request";

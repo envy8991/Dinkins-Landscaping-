@@ -52,7 +52,7 @@
         <h2 class="font-heading text-3xl font-black uppercase mb-3">Owner Login</h2>
         <p class="text-slate-600 mb-4">Sign in with the owner email and password configured in Firebase Authentication.</p>
         <div id="setupHelp" class="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"></div>
-        <form id="loginForm" class="space-y-5">
+        <form id="loginForm" class="space-y-5" action="javascript:void(0)" novalidate>
           <label class="block">
             <span class="font-bold text-sm uppercase tracking-wide">Email</span>
             <input id="loginEmail" type="email" required class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-brandOrange focus:outline-none focus:ring-1 focus:ring-brandOrange" />
@@ -221,14 +221,32 @@
 
     <script>
       window.dinkinsAdminAuthReady = false;
+      window.dinkinsHandleAdminLogin = null;
       document.getElementById("loginForm")?.addEventListener("submit", (event) => {
         event.preventDefault();
-        if (!window.dinkinsAdminAuthReady) {
-          const loginStatus = document.getElementById("loginStatus");
-          if (loginStatus) {
-            loginStatus.textContent = "The login scripts are still loading. If this message stays here, make sure you are opening admin.html from the deployed website, not directly from your computer.";
-            loginStatus.className = "text-sm font-bold text-red-600";
-          }
+        event.stopPropagation();
+        if (typeof window.dinkinsHandleAdminLogin === "function") {
+          window.dinkinsHandleAdminLogin();
+          return;
+        }
+        const loginStatus = document.getElementById("loginStatus");
+        if (loginStatus) {
+          loginStatus.textContent = "The Firebase login scripts are still loading. If this stays here after a refresh, your browser is not loading Google's Firebase scripts; try a private window or another browser.";
+          loginStatus.className = "text-sm font-bold text-red-600";
+        }
+      }, true);
+      window.addEventListener("error", (event) => {
+        const loginStatus = document.getElementById("loginStatus");
+        if (!window.dinkinsAdminAuthReady && loginStatus) {
+          loginStatus.textContent = `Admin script error: ${event.message || "check the browser console"}`;
+          loginStatus.className = "text-sm font-bold text-red-600";
+        }
+      });
+      window.addEventListener("unhandledrejection", (event) => {
+        const loginStatus = document.getElementById("loginStatus");
+        if (!window.dinkinsAdminAuthReady && loginStatus) {
+          loginStatus.textContent = `Admin script error: ${event.reason?.message || event.reason || "check the browser console"}`;
+          loginStatus.className = "text-sm font-bold text-red-600";
         }
       });
     </script>
@@ -262,8 +280,135 @@
         ref,
         uploadBytes,
       } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
-      import { firebaseConfig, isFirebaseConfigured, ownerEmails } from "./firebase-config.js";
-      import { defaultSiteContent, mergeSiteContent } from "./site-content.js";
+      // Keep the admin page self-contained so login does not depend on extra local
+      // module files loading correctly from Firebase Hosting.
+      const firebaseConfig = {
+  apiKey: "AIzaSyDtl82JalzxfVM5Xzw2OHuAo-kN23IsoiU",
+  authDomain: "dinkins-7adf1.firebaseapp.com",
+  projectId: "dinkins-7adf1",
+  storageBucket: "dinkins-7adf1.firebasestorage.app",
+  messagingSenderId: "7113023718",
+  appId: "1:7113023718:web:240e3b6eb83607b46cdb27",
+  measurementId: "G-PMM52DNM2L",
+};
+
+      // Client-side convenience list for showing the admin UI after login. This is not
+// the security boundary; keep the matching Firestore and Storage rules in place.
+const ownerEmails = ["dinkinslandmgmt@gmail.com", "qathom8991@gmail.com"];
+
+      function isFirebaseConfigured() {
+        return Object.values(firebaseConfig).every(
+          (value) => typeof value === "string" && value && !value.startsWith("REPLACE_WITH"),
+        );
+      }
+
+      const defaultSiteContent = {
+        business: {
+          phoneDisplay: "(731) 694-6818",
+          phoneHref: "tel:7316946818",
+          email: "dinkinslandmgmt@gmail.com",
+          emailHref: "mailto:dinkinslandmgmt@gmail.com",
+          facebookUrl: "https://www.facebook.com/share/1EMjycvWiQ/?mibextid=wwXIfr",
+        },
+        hero: {
+          eyebrow: "Licensed & Insured",
+          titleHtml: 'Expert Land Work, <br /><span class="text-brandOrange">Done Right</span>',
+          description:
+            "From gravel driveways and excavation to small land clearing, grading, and drainage solutions, we prepare residential and commercial properties with precision, care, and reliable results.",
+        },
+        services: {
+          heading: "What We Do",
+          items: [
+            {
+              icon: "fa-tree",
+              title: "Land Clearing",
+              description:
+                "Brush removal, tree clearing, and stump grinding to take back your overgrown property.",
+            },
+            {
+              icon: "fa-water",
+              title: "Drainage Solutions",
+              description:
+                "Protect your property with effective drainage solutions designed to prevent standing water, erosion, and foundation issues. We install systems that keep your landscape safe, dry, and functional year-round.",
+            },
+            {
+              icon: "fa-mountain-sun",
+              title: "Excavation",
+              description:
+                "Site prep, grading, trenching, and dirt work handled with precision equipment.",
+            },
+            {
+              icon: "fa-road",
+              title: "Driveways",
+              description:
+                "Gravel driveway installs, driveway reconditioning, and resurfacing.",
+            },
+            {
+              icon: "fa-hammer",
+              title: "Demolition",
+              description:
+                "Wreck out, haul-off, and removal services to clear the way for your next project.",
+            },
+            {
+              icon: "fa-pen-ruler",
+              title: "Landscape Design",
+              description:
+                "Custom outdoor designs that combine beauty, function, and value. We create personalized landscapes with plants, patios, lighting, and layout planning tailored to your property.",
+            },
+          ],
+        },
+        portfolio: {
+          eyebrow: "Featured Project",
+          title: "Gravel Driveway Work",
+          description:
+            "Take a look at a completed gravel driveway project by Dinkins Land Management. From shaping and grading to a clean gravel finish, we build driveways that are ready for everyday use.",
+          ctaText: "Request Driveway Quote",
+          photos: [
+            {
+              url: "https://firebasestorage.googleapis.com/v0/b/dinkins-7adf1.firebasestorage.app/o/IMG_0115.jpeg?alt=media&token=654e2034-e615-4e2a-bdaa-321f82307c38",
+              alt: "Completed gravel driveway work by Dinkins Land Management",
+            },
+            {
+              url: "https://firebasestorage.googleapis.com/v0/b/dinkins-7adf1.firebasestorage.app/o/IMG_0114.jpeg?alt=media&token=28226773-77ef-4028-bfbd-a59556f5532d",
+              alt: "Gravel driveway grading and resurfacing work by Dinkins Land Management",
+            },
+          ],
+        },
+        contact: {
+          heading: "Request a Quote",
+          description: "Or give us a call directly at",
+        },
+        footer: {
+          tagline: "Licensed & Insured",
+        },
+        customSections: [],
+      };
+
+      function mergeSiteContent(savedContent = {}) {
+        return {
+          ...defaultSiteContent,
+          ...savedContent,
+          business: { ...defaultSiteContent.business, ...(savedContent.business || {}) },
+          hero: { ...defaultSiteContent.hero, ...(savedContent.hero || {}) },
+          services: {
+            ...defaultSiteContent.services,
+            ...(savedContent.services || {}),
+            items: savedContent.services?.items?.length
+              ? savedContent.services.items
+              : defaultSiteContent.services.items,
+          },
+          portfolio: {
+            ...defaultSiteContent.portfolio,
+            ...(savedContent.portfolio || {}),
+            photos: savedContent.portfolio?.photos?.length
+              ? savedContent.portfolio.photos
+              : defaultSiteContent.portfolio.photos,
+          },
+          contact: { ...defaultSiteContent.contact, ...(savedContent.contact || {}) },
+          footer: { ...defaultSiteContent.footer, ...(savedContent.footer || {}) },
+          customSections: savedContent.customSections || defaultSiteContent.customSections,
+        };
+      }
 
       const loginPanel = document.getElementById("loginPanel");
       const dashboard = document.getElementById("dashboard");
@@ -280,6 +425,7 @@
       let allQuotes = [];
       let authPersistenceReady = Promise.resolve();
       let currentContent = mergeSiteContent(defaultSiteContent);
+      let keepAuthMessage = false;
 
       renderSetupHelp();
 
@@ -307,8 +453,7 @@
           setLoginStatus("Login is ready, but this browser may not remember you after it closes. You can still sign in below.", "info");
         });
 
-        document.getElementById("loginForm").addEventListener("submit", async (event) => {
-          event.preventDefault();
+        window.dinkinsHandleAdminLogin = async () => {
           setLoginStatus("Signing in...", "info");
           loginButton.disabled = true;
           const email = document.getElementById("loginEmail").value.trim().toLowerCase();
@@ -323,7 +468,7 @@
           } finally {
             loginButton.disabled = false;
           }
-        });
+        };
 
         document.getElementById("signOutButton").addEventListener("click", async () => {
           await signOut(auth);
@@ -337,10 +482,13 @@
             loginPanel.classList.remove("hidden");
             document.getElementById("signOutButton").classList.add("hidden");
             if (user) {
-              setLoginStatus(`Signed in as ${user.email}, but that email is not listed as an owner in firebase-config.js. Allowed owner emails: ${ownerEmails.join(", ")}.`, "error");
+              keepAuthMessage = true;
+              setLoginStatus(`Firebase accepted ${user.email}, but this dashboard is only enabled for: ${ownerEmails.join(", ")}. Add that exact email to ownerEmails in firebase-config.js, redeploy, then try again.`, "error");
               await signOut(auth);
-            } else {
+            } else if (!keepAuthMessage) {
               setLoginStatus("Ready. Enter an owner email and password to sign in.", "info");
+            } else {
+              keepAuthMessage = false;
             }
             return;
           }
@@ -558,6 +706,7 @@
             <li>Firebase project: <code>${escapeHtml(firebaseConfig.projectId || "missing")}</code></li>
             <li>Allowed owner emails: <code>${escapeHtml(allowedEmails)}</code></li>
             <li>The Firebase Authentication user must use one of those exact emails.</li>
+            <li>This admin page has the Firebase setup built in, so no extra config files are required for the login screen to start.</li>
             <li>If sign-in works but dashboard data does not load, publish the Firestore/Storage rules from the README for the same owner email.</li>
           </ul>`;
       }

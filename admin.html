@@ -52,7 +52,7 @@
         <h2 class="font-heading text-3xl font-black uppercase mb-3">Owner Login</h2>
         <p class="text-slate-600 mb-4">Sign in with the owner email and password configured in Firebase Authentication.</p>
         <div id="setupHelp" class="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"></div>
-        <form id="loginForm" class="space-y-5">
+        <form id="loginForm" class="space-y-5" action="javascript:void(0)" novalidate>
           <label class="block">
             <span class="font-bold text-sm uppercase tracking-wide">Email</span>
             <input id="loginEmail" type="email" required class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-brandOrange focus:outline-none focus:ring-1 focus:ring-brandOrange" />
@@ -221,14 +221,32 @@
 
     <script>
       window.dinkinsAdminAuthReady = false;
+      window.dinkinsHandleAdminLogin = null;
       document.getElementById("loginForm")?.addEventListener("submit", (event) => {
         event.preventDefault();
-        if (!window.dinkinsAdminAuthReady) {
-          const loginStatus = document.getElementById("loginStatus");
-          if (loginStatus) {
-            loginStatus.textContent = "The login scripts are still loading. If this message stays here, make sure you are opening admin.html from the deployed website, not directly from your computer.";
-            loginStatus.className = "text-sm font-bold text-red-600";
-          }
+        event.stopPropagation();
+        if (typeof window.dinkinsHandleAdminLogin === "function") {
+          window.dinkinsHandleAdminLogin();
+          return;
+        }
+        const loginStatus = document.getElementById("loginStatus");
+        if (loginStatus) {
+          loginStatus.textContent = "The login scripts are still loading. If this message stays here, refresh once from the deployed Firebase Hosting admin page and check that /firebase-config.js is published.";
+          loginStatus.className = "text-sm font-bold text-red-600";
+        }
+      }, true);
+      window.addEventListener("error", (event) => {
+        const loginStatus = document.getElementById("loginStatus");
+        if (!window.dinkinsAdminAuthReady && loginStatus) {
+          loginStatus.textContent = `Admin script error: ${event.message || "check the browser console"}`;
+          loginStatus.className = "text-sm font-bold text-red-600";
+        }
+      });
+      window.addEventListener("unhandledrejection", (event) => {
+        const loginStatus = document.getElementById("loginStatus");
+        if (!window.dinkinsAdminAuthReady && loginStatus) {
+          loginStatus.textContent = `Admin script error: ${event.reason?.message || event.reason || "check the browser console"}`;
+          loginStatus.className = "text-sm font-bold text-red-600";
         }
       });
     </script>
@@ -262,8 +280,8 @@
         ref,
         uploadBytes,
       } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
-      import { firebaseConfig, isFirebaseConfigured, ownerEmails } from "./firebase-config.js";
-      import { defaultSiteContent, mergeSiteContent } from "./site-content.js";
+      import { firebaseConfig, isFirebaseConfigured, ownerEmails } from "/firebase-config.js";
+      import { defaultSiteContent, mergeSiteContent } from "/site-content.js";
 
       const loginPanel = document.getElementById("loginPanel");
       const dashboard = document.getElementById("dashboard");
@@ -280,6 +298,7 @@
       let allQuotes = [];
       let authPersistenceReady = Promise.resolve();
       let currentContent = mergeSiteContent(defaultSiteContent);
+      let keepAuthMessage = false;
 
       renderSetupHelp();
 
@@ -307,8 +326,7 @@
           setLoginStatus("Login is ready, but this browser may not remember you after it closes. You can still sign in below.", "info");
         });
 
-        document.getElementById("loginForm").addEventListener("submit", async (event) => {
-          event.preventDefault();
+        window.dinkinsHandleAdminLogin = async () => {
           setLoginStatus("Signing in...", "info");
           loginButton.disabled = true;
           const email = document.getElementById("loginEmail").value.trim().toLowerCase();
@@ -323,7 +341,7 @@
           } finally {
             loginButton.disabled = false;
           }
-        });
+        };
 
         document.getElementById("signOutButton").addEventListener("click", async () => {
           await signOut(auth);
@@ -337,10 +355,13 @@
             loginPanel.classList.remove("hidden");
             document.getElementById("signOutButton").classList.add("hidden");
             if (user) {
-              setLoginStatus(`Signed in as ${user.email}, but that email is not listed as an owner in firebase-config.js. Allowed owner emails: ${ownerEmails.join(", ")}.`, "error");
+              keepAuthMessage = true;
+              setLoginStatus(`Firebase accepted ${user.email}, but this dashboard is only enabled for: ${ownerEmails.join(", ")}. Add that exact email to ownerEmails in firebase-config.js, redeploy, then try again.`, "error");
               await signOut(auth);
-            } else {
+            } else if (!keepAuthMessage) {
               setLoginStatus("Ready. Enter an owner email and password to sign in.", "info");
+            } else {
+              keepAuthMessage = false;
             }
             return;
           }

@@ -14,7 +14,7 @@ export const firebaseConfig = {
 
 // Client-side convenience list for showing the admin UI after login. This is not
 // the security boundary; keep the matching Firestore and Storage rules in place.
-export const ownerEmails = ["dinkinslandmgmt@gmail.com"];
+export const ownerEmails = ["dinkinslandmgmt@gmail.com", "qathom8991@gmail.com"];
 
 export function isFirebaseConfigured() {
   return Object.values(firebaseConfig).every(

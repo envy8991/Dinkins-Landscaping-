@@ -23,11 +23,18 @@ The public website still has safe default content in `site-content.js`, so the s
 7. Publish Firestore and Storage security rules like the examples below.
 8. Deploy the site and visit `admin.html` to sign in.
 
+If pressing **Sign In** refreshes the page or sign-in succeeds but the dashboard does not load quote requests/editable content, the most likely causes are:
+
+- The page is opened directly as a file instead of from the deployed website or a local web server; browser modules must load over HTTP/HTTPS for the login JavaScript to attach.
+- The login email is not listed in `ownerEmails` in `firebase-config.js`.
+- The Firestore/Storage rules below were not published, or their owner email list does not match `firebase-config.js`.
+- **Authentication → Sign-in method → Email/Password** is not enabled.
+
 The Firebase Web App API key is safe to include in this static site. The security boundary is Firebase Authentication plus Firestore/Storage rules, not hiding values in JavaScript.
 
 ## Firestore security rules example
 
-Replace `dinkinslandmgmt@gmail.com` if a different owner email is used.
+Replace the emails in `ownerEmails` if different owner emails are used. Keep this list in sync with `firebase-config.js`.
 
 ```js
 rules_version = '2';
@@ -35,7 +42,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function isOwner() {
       return request.auth != null &&
-        request.auth.token.email == 'dinkinslandmgmt@gmail.com';
+        request.auth.token.email in ['dinkinslandmgmt@gmail.com', 'qathom8991@gmail.com'];
     }
 
     match /siteContent/{document=**} {
@@ -75,7 +82,7 @@ service firebase.storage {
   match /b/{bucket}/o {
     function isOwner() {
       return request.auth != null &&
-        request.auth.token.email == 'dinkinslandmgmt@gmail.com';
+        request.auth.token.email in ['dinkinslandmgmt@gmail.com', 'qathom8991@gmail.com'];
     }
 
     match /portfolio/{fileName} {

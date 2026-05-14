@@ -92,6 +92,17 @@ service firebase.storage {
 }
 ```
 
+
+## Deploying to Firebase Hosting
+
+This repository includes `firebase.json` and `.firebaserc` so Firebase deploys the website files from the repository root. Deploy from the same folder that contains `admin.html`, `index.html`, `firebase-config.js`, `site.js`, and `site-content.js`:
+
+```bash
+firebase deploy --only hosting
+```
+
+If deploy says it only found files in a `public` folder, you are either in the wrong folder or using an old local Firebase config. Copy the `firebase.json` and `.firebaserc` from this repository, then rerun the command above. The admin login page must deploy `firebase-config.js` and `site-content.js` beside `admin.html`; otherwise the login scripts cannot finish loading.
+
 ## Quote email flow
 
 The contact form now first attempts to save the quote request to Firestore for the dashboard, then continues sending the existing Web3Forms email notification. If Firebase has not been configured yet, the form still sends through Web3Forms so the website does not lose its current email behavior.

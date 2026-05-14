@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dinkins Owner Dashboard</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brandDark: "#111111",
+              brandOrange: "#FF6B00",
+              brandGreen: "#2b591b",
+            },
+            fontFamily: {
+              heading: ["Montserrat", "ui-sans-serif", "system-ui", "sans-serif"],
+              body: ["Roboto", "ui-sans-serif", "system-ui", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-slate-100 text-slate-900 font-body">
+    <header class="bg-brandDark text-white border-b-4 border-brandOrange sticky top-0 z-30">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-brandOrange font-heading font-black">Owner Area</p>
+          <h1 class="text-2xl md:text-4xl font-heading font-black uppercase">Dinkins Dashboard</h1>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <a href="index.html" class="rounded-full border border-white/20 px-5 py-2 font-heading text-sm font-black uppercase hover:bg-white/10">View Site</a>
+          <button id="signOutButton" class="hidden rounded-full bg-white px-5 py-2 font-heading text-sm font-black uppercase text-brandDark hover:bg-slate-200">Sign Out</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+      <section id="configWarning" class="hidden rounded-3xl border border-amber-300 bg-amber-50 p-6 text-amber-900 shadow-sm mb-8">
+        <h2 class="font-heading text-xl font-black uppercase mb-2">Firebase setup needed</h2>
+        <p>Update <code class="font-bold">firebase-config.js</code> with the Firebase Web App values before the login, dashboard, uploads, and editable content can connect.</p>
+      </section>
+
+      <section id="loginPanel" class="max-w-xl mx-auto rounded-3xl bg-white p-8 md:p-10 shadow-xl border border-slate-200">
+        <h2 class="font-heading text-3xl font-black uppercase mb-3">Owner Login</h2>
+        <p class="text-slate-600 mb-8">Sign in with the owner email and password configured in Firebase Authentication.</p>
+        <form id="loginForm" class="space-y-5">
+          <label class="block">
+            <span class="font-bold text-sm uppercase tracking-wide">Email</span>
+            <input id="loginEmail" type="email" required class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-brandOrange focus:outline-none focus:ring-1 focus:ring-brandOrange" />
+          </label>
+          <label class="block">
+            <span class="font-bold text-sm uppercase tracking-wide">Password</span>
+            <input id="loginPassword" type="password" required class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-brandOrange focus:outline-none focus:ring-1 focus:ring-brandOrange" />
+          </label>
+          <button class="w-full rounded-xl bg-brandOrange py-4 font-heading font-black uppercase text-white hover:bg-orange-600" type="submit">Sign In</button>
+          <p id="loginStatus" class="text-sm font-bold"></p>
+        </form>
+      </section>
+
+      <section id="dashboard" class="hidden space-y-8">
+        <div class="grid md:grid-cols-4 gap-4">
+          <div class="rounded-3xl bg-white p-6 shadow border border-slate-200">
+            <p class="text-xs uppercase tracking-widest font-heading font-black text-slate-500">Total Requests</p>
+            <p id="totalQuotes" class="text-4xl font-heading font-black text-brandDark mt-2">0</p>
+          </div>
+          <div class="rounded-3xl bg-white p-6 shadow border border-slate-200">
+            <p class="text-xs uppercase tracking-widest font-heading font-black text-slate-500">New</p>
+            <p id="newQuotes" class="text-4xl font-heading font-black text-brandOrange mt-2">0</p>
+          </div>
+          <div class="rounded-3xl bg-white p-6 shadow border border-slate-200 md:col-span-2">
+            <p class="text-xs uppercase tracking-widest font-heading font-black text-slate-500">Signed In</p>
+            <p id="signedInAs" class="text-lg font-bold mt-2 break-all"></p>
+          </div>
+        </div>
+
+        <div class="rounded-3xl bg-white shadow-xl border border-slate-200 overflow-hidden">
+          <div class="border-b border-slate-200 p-6 md:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div>
+              <p class="text-xs uppercase tracking-[0.3em] font-heading font-black text-brandOrange">Quote Requests</p>
+              <h2 class="font-heading text-3xl font-black uppercase mt-1">Form Submissions</h2>
+            </div>
+            <select id="statusFilter" class="rounded-xl border border-slate-300 px-4 py-3 font-bold">
+              <option value="all">All statuses</option>
+              <option>New</option>
+              <option>Contacted</option>
+              <option>Scheduled</option>
+              <option>Completed</option>
+              <option>Archived</option>
+            </select>
+          </div>
+          <div id="quotesList" class="divide-y divide-slate-200"></div>
+        </div>
+
+        <form id="contentForm" class="rounded-3xl bg-white shadow-xl border border-slate-200 overflow-hidden">
+          <div class="border-b border-slate-200 p-6 md:p-8">
+            <p class="text-xs uppercase tracking-[0.3em] font-heading font-black text-brandOrange">Website Editor</p>
+            <h2 class="font-heading text-3xl font-black uppercase mt-1">Content, Photos & Sections</h2>
+            <p class="text-slate-600 mt-2">Keep changes simple and safe by editing predefined areas. Click Save Website Changes when finished.</p>
+          </div>
+
+          <div class="p-6 md:p-8 space-y-10">
+            <section class="grid md:grid-cols-2 gap-5">
+              <h3 class="md:col-span-2 font-heading text-2xl font-black uppercase">Business Info</h3>
+              <label class="block"><span class="label">Phone display</span><input name="business.phoneDisplay" class="input" /></label>
+              <label class="block"><span class="label">Phone link</span><input name="business.phoneHref" class="input" /></label>
+              <label class="block"><span class="label">Email</span><input name="business.email" class="input" /></label>
+              <label class="block"><span class="label">Email link</span><input name="business.emailHref" class="input" /></label>
+              <label class="block md:col-span-2"><span class="label">Facebook URL</span><input name="business.facebookUrl" class="input" /></label>
+            </section>
+
+            <section class="grid md:grid-cols-2 gap-5">
+              <h3 class="md:col-span-2 font-heading text-2xl font-black uppercase">Hero & Contact Wording</h3>
+              <label class="block"><span class="label">Hero eyebrow</span><input name="hero.eyebrow" class="input" /></label>
+              <label class="block"><span class="label">Hero title HTML</span><input name="hero.titleHtml" class="input" /></label>
+              <label class="block md:col-span-2"><span class="label">Hero description</span><textarea name="hero.description" rows="3" class="input"></textarea></label>
+              <label class="block"><span class="label">Contact heading</span><input name="contact.heading" class="input" /></label>
+              <label class="block"><span class="label">Contact description</span><input name="contact.description" class="input" /></label>
+              <label class="block md:col-span-2"><span class="label">Footer tagline</span><input name="footer.tagline" class="input" /></label>
+            </section>
+
+            <section>
+              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+                <div>
+                  <h3 class="font-heading text-2xl font-black uppercase">Services</h3>
+                  <label class="block mt-3"><span class="label">Services heading</span><input name="services.heading" class="input max-w-md" /></label>
+                </div>
+                <button type="button" id="addService" class="secondary-button">Add Service</button>
+              </div>
+              <div id="servicesEditor" class="space-y-4"></div>
+            </section>
+
+            <section>
+              <div class="grid md:grid-cols-2 gap-5 mb-5">
+                <h3 class="md:col-span-2 font-heading text-2xl font-black uppercase">Featured Work & Photos</h3>
+                <label class="block"><span class="label">Eyebrow</span><input name="portfolio.eyebrow" class="input" /></label>
+                <label class="block"><span class="label">Title</span><input name="portfolio.title" class="input" /></label>
+                <label class="block md:col-span-2"><span class="label">Description</span><textarea name="portfolio.description" rows="3" class="input"></textarea></label>
+                <label class="block"><span class="label">Button text</span><input name="portfolio.ctaText" class="input" /></label>
+              </div>
+              <div class="flex justify-end mb-4"><button type="button" id="addPhoto" class="secondary-button">Add Photo</button></div>
+              <div id="photosEditor" class="space-y-4"></div>
+            </section>
+
+            <section>
+              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+                <div>
+                  <h3 class="font-heading text-2xl font-black uppercase">Custom Sections</h3>
+                  <p class="text-slate-600">Add optional sections without changing code. Leave disabled to hide a section.</p>
+                </div>
+                <button type="button" id="addSection" class="secondary-button">Add Section</button>
+              </div>
+              <div id="sectionsEditor" class="space-y-4"></div>
+            </section>
+          </div>
+
+          <div class="sticky bottom-0 bg-white/95 backdrop-blur border-t border-slate-200 p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <p id="saveStatus" class="font-bold text-sm"></p>
+            <button type="submit" class="rounded-xl bg-brandOrange px-8 py-4 font-heading font-black uppercase text-white hover:bg-orange-600">Save Website Changes</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <template id="serviceTemplate">
+      <div class="editor-card service-row">
+        <div class="grid md:grid-cols-[1fr_1fr_auto] gap-4 items-end">
+          <label><span class="label">Icon class</span><input data-field="icon" class="input" placeholder="fa-tree" /></label>
+          <label><span class="label">Title</span><input data-field="title" class="input" /></label>
+          <button type="button" class="remove-row danger-button">Remove</button>
+          <label class="md:col-span-3"><span class="label">Description</span><textarea data-field="description" rows="2" class="input"></textarea></label>
+        </div>
+      </div>
+    </template>
+
+    <template id="photoTemplate">
+      <div class="editor-card photo-row">
+        <div class="grid md:grid-cols-[1fr_1fr_auto] gap-4 items-end">
+          <label><span class="label">Photo URL</span><input data-field="url" class="input" /></label>
+          <label><span class="label">Alt text</span><input data-field="alt" class="input" /></label>
+          <button type="button" class="remove-row danger-button">Remove</button>
+          <label class="md:col-span-2"><span class="label">Upload new image</span><input type="file" accept="image/*" class="upload-file mt-2 block w-full text-sm" /></label>
+          <button type="button" class="upload-button secondary-button">Upload</button>
+        </div>
+      </div>
+    </template>
+
+    <template id="sectionTemplate">
+      <div class="editor-card section-row">
+        <div class="grid md:grid-cols-2 gap-4">
+          <label class="flex items-center gap-2 md:col-span-2 font-bold"><input type="checkbox" data-field="enabled" checked /> Show section</label>
+          <label><span class="label">Eyebrow</span><input data-field="eyebrow" class="input" /></label>
+          <label><span class="label">Title</span><input data-field="title" class="input" /></label>
+          <label class="md:col-span-2"><span class="label">Body</span><textarea data-field="body" rows="4" class="input"></textarea></label>
+          <label><span class="label">Image URL</span><input data-field="imageUrl" class="input" /></label>
+          <label><span class="label">Image alt text</span><input data-field="imageAlt" class="input" /></label>
+          <label><span class="label">Button text</span><input data-field="buttonText" class="input" /></label>
+          <label><span class="label">Button link</span><input data-field="buttonHref" class="input" /></label>
+          <div class="md:col-span-2 flex justify-end"><button type="button" class="remove-row danger-button">Remove</button></div>
+        </div>
+      </div>
+    </template>
+
+    <style>
+      body { font-family: "Roboto", sans-serif; }
+      .label { display: block; font-size: 0.75rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: #475569; margin-bottom: 0.45rem; }
+      .input { width: 100%; border-radius: 0.75rem; border: 1px solid #cbd5e1; padding: 0.85rem 1rem; outline: none; }
+      .input:focus { border-color: #ff6b00; box-shadow: 0 0 0 1px #ff6b00; }
+      .editor-card { border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 1.25rem; padding: 1rem; }
+      .secondary-button { border-radius: 9999px; background: #111111; color: white; padding: 0.75rem 1.25rem; font-family: Montserrat, sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.78rem; }
+      .danger-button { border-radius: 9999px; background: #fee2e2; color: #991b1b; padding: 0.75rem 1rem; font-family: Montserrat, sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.78rem; }
+    </style>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+      import {
+        onAuthStateChanged,
+        signInWithEmailAndPassword,
+        signOut,
+        getAuth,
+      } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+      import {
+        collection,
+        deleteDoc,
+        doc,
+        getDoc,
+        getFirestore,
+        onSnapshot,
+        orderBy,
+        query,
+        serverTimestamp,
+        setDoc,
+        updateDoc,
+      } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+      import {
+        getDownloadURL,
+        getStorage,
+        ref,
+        uploadBytes,
+      } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
+      import { firebaseConfig, isFirebaseConfigured, ownerEmails } from "./firebase-config.js";
+      import { defaultSiteContent, mergeSiteContent } from "./site-content.js";
+
+      const loginPanel = document.getElementById("loginPanel");
+      const dashboard = document.getElementById("dashboard");
+      const configWarning = document.getElementById("configWarning");
+      const loginStatus = document.getElementById("loginStatus");
+      const saveStatus = document.getElementById("saveStatus");
+      const quotesList = document.getElementById("quotesList");
+      const statusFilter = document.getElementById("statusFilter");
+      let auth;
+      let db;
+      let storage;
+      let allQuotes = [];
+      let currentContent = mergeSiteContent(defaultSiteContent);
+
+      if (!isFirebaseConfigured()) {
+        configWarning.classList.remove("hidden");
+        loginPanel.classList.add("hidden");
+      } else {
+        const app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+        storage = getStorage(app);
+        wireAuth();
+      }
+
+      function wireAuth() {
+        document.getElementById("loginForm").addEventListener("submit", async (event) => {
+          event.preventDefault();
+          loginStatus.textContent = "Signing in...";
+          loginStatus.className = "text-sm font-bold text-brandOrange";
+          const email = document.getElementById("loginEmail").value.trim();
+          const password = document.getElementById("loginPassword").value;
+          try {
+            await signInWithEmailAndPassword(auth, email, password);
+          } catch (error) {
+            loginStatus.textContent = error.message;
+            loginStatus.className = "text-sm font-bold text-red-600";
+          }
+        });
+
+        document.getElementById("signOutButton").addEventListener("click", () => signOut(auth));
+
+        onAuthStateChanged(auth, async (user) => {
+          const ownerAllowed = user && ownerEmails.includes(user.email);
+          if (!ownerAllowed) {
+            dashboard.classList.add("hidden");
+            loginPanel.classList.remove("hidden");
+            document.getElementById("signOutButton").classList.add("hidden");
+            if (user) {
+              loginStatus.textContent = "This email is signed in, but it is not listed as an owner in firebase-config.js.";
+              loginStatus.className = "text-sm font-bold text-red-600";
+              await signOut(auth);
+            }
+            return;
+          }
+
+          loginPanel.classList.add("hidden");
+          dashboard.classList.remove("hidden");
+          document.getElementById("signOutButton").classList.remove("hidden");
+          document.getElementById("signedInAs").textContent = user.email;
+          await loadEditableContent();
+          watchQuotes();
+        });
+      }
+
+      async function loadEditableContent() {
+        const snapshot = await getDoc(doc(db, "siteContent", "home"));
+        currentContent = mergeSiteContent(snapshot.exists() ? snapshot.data() : defaultSiteContent);
+        fillForm(currentContent);
+      }
+
+      function fillForm(content) {
+        document.querySelectorAll("[name]").forEach((input) => {
+          const value = getPath(content, input.name);
+          if (typeof value === "string") input.value = value;
+        });
+        renderRows("servicesEditor", "serviceTemplate", content.services.items);
+        renderRows("photosEditor", "photoTemplate", content.portfolio.photos);
+        renderRows("sectionsEditor", "sectionTemplate", content.customSections);
+      }
+
+      function renderRows(containerId, templateId, rows) {
+        const container = document.getElementById(containerId);
+        const template = document.getElementById(templateId);
+        container.innerHTML = "";
+        rows.forEach((row) => {
+          const clone = template.content.cloneNode(true);
+          const element = clone.firstElementChild;
+          element.querySelectorAll("[data-field]").forEach((input) => {
+            const value = row[input.dataset.field];
+            if (input.type === "checkbox") input.checked = value !== false;
+            else input.value = value || "";
+          });
+          container.appendChild(element);
+        });
+      }
+
+      document.getElementById("addService").addEventListener("click", () => {
+        addRow("servicesEditor", "serviceTemplate", { icon: "fa-seedling", title: "New Service", description: "Describe this service." });
+      });
+      document.getElementById("addPhoto").addEventListener("click", () => {
+        addRow("photosEditor", "photoTemplate", { url: "", alt: "Dinkins Land Management project photo" });
+      });
+      document.getElementById("addSection").addEventListener("click", () => {
+        addRow("sectionsEditor", "sectionTemplate", { enabled: true, eyebrow: "More From Dinkins", title: "New Section", body: "Add the section wording here.", imageUrl: "", imageAlt: "", buttonText: "", buttonHref: "" });
+      });
+
+      function addRow(containerId, templateId, row) {
+        const rows = readRows(containerId);
+        rows.push(row);
+        renderRows(containerId, templateId, rows);
+      }
+
+      document.addEventListener("click", async (event) => {
+        if (event.target.matches(".remove-row")) {
+          event.target.closest(".editor-card").remove();
+        }
+        if (event.target.matches(".upload-button")) {
+          await uploadPhoto(event.target.closest(".photo-row"));
+        }
+        if (event.target.matches(".delete-quote")) {
+          const quoteId = event.target.dataset.id;
+          if (confirm("Delete this quote request permanently?")) await deleteDoc(doc(db, "quoteRequests", quoteId));
+        }
+      });
+
+      async function uploadPhoto(row) {
+        const fileInput = row.querySelector(".upload-file");
+        const file = fileInput.files[0];
+        if (!file) return alert("Choose an image first.");
+        const button = row.querySelector(".upload-button");
+        button.textContent = "Uploading...";
+        button.disabled = true;
+        const filePath = `portfolio/${Date.now()}-${file.name.replace(/[^a-z0-9.\-_]/gi, "-")}`;
+        try {
+          const snapshot = await uploadBytes(ref(storage, filePath), file);
+          row.querySelector('[data-field="url"]').value = await getDownloadURL(snapshot.ref);
+        } catch (error) {
+          alert(error.message);
+        } finally {
+          button.textContent = "Upload";
+          button.disabled = false;
+        }
+      }
+
+      document.getElementById("contentForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        saveStatus.textContent = "Saving...";
+        saveStatus.className = "font-bold text-sm text-brandOrange";
+        const content = readContentForm();
+        try {
+          await setDoc(doc(db, "siteContent", "home"), {
+            ...content,
+            updatedAt: serverTimestamp(),
+          }, { merge: true });
+          saveStatus.textContent = "Saved. Refresh the public website to see updates.";
+          saveStatus.className = "font-bold text-sm text-green-700";
+        } catch (error) {
+          saveStatus.textContent = error.message;
+          saveStatus.className = "font-bold text-sm text-red-600";
+        }
+      });
+
+      function readContentForm() {
+        const content = structuredClone(defaultSiteContent);
+        document.querySelectorAll("#contentForm [name]").forEach((input) => setPath(content, input.name, input.value.trim()));
+        content.services.items = readRows("servicesEditor");
+        content.portfolio.photos = readRows("photosEditor");
+        content.customSections = readRows("sectionsEditor");
+        return content;
+      }
+
+      function readRows(containerId) {
+        return Array.from(document.getElementById(containerId).children).map((row) => {
+          const data = {};
+          row.querySelectorAll("[data-field]").forEach((input) => {
+            data[input.dataset.field] = input.type === "checkbox" ? input.checked : input.value.trim();
+          });
+          return data;
+        });
+      }
+
+      function watchQuotes() {
+        const quotesQuery = query(collection(db, "quoteRequests"), orderBy("createdAt", "desc"));
+        onSnapshot(quotesQuery, (snapshot) => {
+          allQuotes = snapshot.docs.map((quoteDoc) => ({ id: quoteDoc.id, ...quoteDoc.data() }));
+          renderQuotes();
+        });
+      }
+
+      statusFilter.addEventListener("change", renderQuotes);
+
+      function renderQuotes() {
+        const filter = statusFilter.value;
+        const filteredQuotes = filter === "all" ? allQuotes : allQuotes.filter((quote) => quote.status === filter);
+        document.getElementById("totalQuotes").textContent = allQuotes.length;
+        document.getElementById("newQuotes").textContent = allQuotes.filter((quote) => quote.status === "New").length;
+        quotesList.innerHTML = filteredQuotes.length
+          ? filteredQuotes.map(quoteCard).join("")
+          : '<div class="p-8 text-slate-600 font-bold">No quote requests to show.</div>';
+        quotesList.querySelectorAll("select, textarea").forEach((input) => {
+          input.addEventListener("change", async () => {
+            const card = input.closest("[data-quote-id]");
+            await updateDoc(doc(db, "quoteRequests", card.dataset.quoteId), {
+              status: card.querySelector("select").value,
+              ownerNotes: card.querySelector("textarea").value,
+              updatedAt: serverTimestamp(),
+            });
+          });
+        });
+      }
+
+      function quoteCard(quote) {
+        const created = quote.createdAt?.toDate ? quote.createdAt.toDate().toLocaleString() : "Recently submitted";
+        const statuses = ["New", "Contacted", "Scheduled", "Completed", "Archived"];
+        return `
+          <article data-quote-id="${quote.id}" class="p-6 md:p-8 grid lg:grid-cols-[1fr_18rem] gap-6">
+            <div>
+              <div class="flex flex-wrap gap-3 items-center mb-3">
+                <h3 class="font-heading text-2xl font-black uppercase">${escapeHtml(quote.name || "Unknown")}</h3>
+                <span class="rounded-full bg-orange-100 text-brandOrange px-3 py-1 text-xs font-black uppercase">${escapeHtml(quote.status || "New")}</span>
+              </div>
+              <p class="text-sm text-slate-500 font-bold mb-4">${created}</p>
+              <div class="grid md:grid-cols-3 gap-3 text-sm mb-5">
+                <a class="rounded-xl bg-slate-100 p-3 font-bold hover:text-brandOrange" href="mailto:${escapeAttribute(quote.email || "")}"><i class="fa-solid fa-envelope mr-2 text-brandOrange"></i>${escapeHtml(quote.email || "No email")}</a>
+                <a class="rounded-xl bg-slate-100 p-3 font-bold hover:text-brandOrange" href="tel:${escapeAttribute(quote.phone || "")}"><i class="fa-solid fa-phone mr-2 text-brandOrange"></i>${escapeHtml(quote.phone || "No phone")}</a>
+                <p class="rounded-xl bg-slate-100 p-3 font-bold"><i class="fa-solid fa-list mr-2 text-brandOrange"></i>${escapeHtml(quote.service || "No service")}</p>
+              </div>
+              <p class="whitespace-pre-line rounded-2xl border border-slate-200 bg-white p-4 text-slate-700">${escapeHtml(quote.message || "")}</p>
+            </div>
+            <div class="space-y-4">
+              <label><span class="label">Status</span><select class="input">${statuses.map((status) => `<option ${status === quote.status ? "selected" : ""}>${status}</option>`).join("")}</select></label>
+              <label><span class="label">Owner notes</span><textarea rows="5" class="input">${escapeHtml(quote.ownerNotes || "")}</textarea></label>
+              <button data-id="${quote.id}" type="button" class="delete-quote danger-button w-full">Delete</button>
+            </div>
+          </article>`;
+      }
+
+      function getPath(object, path) {
+        return path.split(".").reduce((value, key) => value?.[key], object);
+      }
+
+      function setPath(object, path, value) {
+        const keys = path.split(".");
+        const last = keys.pop();
+        const target = keys.reduce((next, key) => (next[key] ??= {}), object);
+        target[last] = value;
+      }
+
+      function escapeHtml(value = "") {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function escapeAttribute(value = "") {
+        return escapeHtml(value).replaceAll("`", "&#096;");
+      }
+    </script>
+  </body>
+</html>

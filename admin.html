@@ -50,7 +50,8 @@
 
       <section id="loginPanel" class="max-w-xl mx-auto rounded-3xl bg-white p-8 md:p-10 shadow-xl border border-slate-200">
         <h2 class="font-heading text-3xl font-black uppercase mb-3">Owner Login</h2>
-        <p class="text-slate-600 mb-8">Sign in with the owner email and password configured in Firebase Authentication.</p>
+        <p class="text-slate-600 mb-4">Sign in with the owner email and password configured in Firebase Authentication.</p>
+        <div id="setupHelp" class="mb-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700"></div>
         <form id="loginForm" class="space-y-5">
           <label class="block">
             <span class="font-bold text-sm uppercase tracking-wide">Email</span>
@@ -60,8 +61,8 @@
             <span class="font-bold text-sm uppercase tracking-wide">Password</span>
             <input id="loginPassword" type="password" required class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 focus:border-brandOrange focus:outline-none focus:ring-1 focus:ring-brandOrange" />
           </label>
-          <button class="w-full rounded-xl bg-brandOrange py-4 font-heading font-black uppercase text-white hover:bg-orange-600" type="submit">Sign In</button>
-          <p id="loginStatus" class="text-sm font-bold"></p>
+          <button id="loginButton" class="w-full rounded-xl bg-brandOrange py-4 font-heading font-black uppercase text-white hover:bg-orange-600 disabled:cursor-not-allowed disabled:bg-slate-400" type="submit">Sign In</button>
+          <p id="loginStatus" class="text-sm font-bold" aria-live="polite"></p>
         </form>
       </section>
 
@@ -252,6 +253,8 @@
       const dashboard = document.getElementById("dashboard");
       const configWarning = document.getElementById("configWarning");
       const loginStatus = document.getElementById("loginStatus");
+      const loginButton = document.getElementById("loginButton");
+      const setupHelp = document.getElementById("setupHelp");
       const saveStatus = document.getElementById("saveStatus");
       const quotesList = document.getElementById("quotesList");
       const statusFilter = document.getElementById("statusFilter");
@@ -261,44 +264,59 @@
       let allQuotes = [];
       let currentContent = mergeSiteContent(defaultSiteContent);
 
+      renderSetupHelp();
+
       if (!isFirebaseConfigured()) {
         configWarning.classList.remove("hidden");
         loginPanel.classList.add("hidden");
       } else {
-        const app = initializeApp(firebaseConfig);
-        auth = getAuth(app);
-        db = getFirestore(app);
-        storage = getStorage(app);
-        wireAuth();
+        try {
+          const app = initializeApp(firebaseConfig);
+          auth = getAuth(app);
+          db = getFirestore(app);
+          storage = getStorage(app);
+          wireAuth();
+        } catch (error) {
+          console.error("Firebase failed to initialize", error);
+          configWarning.classList.remove("hidden");
+          setLoginStatus(friendlyFirebaseError(error), "error");
+        }
       }
 
       function wireAuth() {
         document.getElementById("loginForm").addEventListener("submit", async (event) => {
           event.preventDefault();
-          loginStatus.textContent = "Signing in...";
-          loginStatus.className = "text-sm font-bold text-brandOrange";
-          const email = document.getElementById("loginEmail").value.trim();
+          setLoginStatus("Signing in...", "info");
+          loginButton.disabled = true;
+          const email = document.getElementById("loginEmail").value.trim().toLowerCase();
           const password = document.getElementById("loginPassword").value;
           try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const credential = await signInWithEmailAndPassword(auth, email, password);
+            setLoginStatus(`Signed in as ${credential.user.email}. Loading dashboard...`, "success");
           } catch (error) {
-            loginStatus.textContent = error.message;
-            loginStatus.className = "text-sm font-bold text-red-600";
+            console.error("Firebase sign-in failed", error);
+            setLoginStatus(friendlyFirebaseError(error), "error");
+          } finally {
+            loginButton.disabled = false;
           }
         });
 
-        document.getElementById("signOutButton").addEventListener("click", () => signOut(auth));
+        document.getElementById("signOutButton").addEventListener("click", async () => {
+          await signOut(auth);
+          setLoginStatus("Signed out.", "info");
+        });
 
         onAuthStateChanged(auth, async (user) => {
-          const ownerAllowed = user && ownerEmails.includes(user.email);
+          const ownerAllowed = isOwnerEmail(user?.email);
           if (!ownerAllowed) {
             dashboard.classList.add("hidden");
             loginPanel.classList.remove("hidden");
             document.getElementById("signOutButton").classList.add("hidden");
             if (user) {
-              loginStatus.textContent = "This email is signed in, but it is not listed as an owner in firebase-config.js.";
-              loginStatus.className = "text-sm font-bold text-red-600";
+              setLoginStatus(`Signed in as ${user.email}, but that email is not listed as an owner in firebase-config.js. Allowed owner emails: ${ownerEmails.join(", ")}.`, "error");
               await signOut(auth);
+            } else {
+              setLoginStatus("Ready. Enter an owner email and password to sign in.", "info");
             }
             return;
           }
@@ -307,7 +325,16 @@
           dashboard.classList.remove("hidden");
           document.getElementById("signOutButton").classList.remove("hidden");
           document.getElementById("signedInAs").textContent = user.email;
-          await loadEditableContent();
+
+          try {
+            await loadEditableContent();
+          } catch (error) {
+            console.error("Could not load editable content", error);
+            saveStatus.textContent = friendlyFirebaseError(error);
+            saveStatus.className = "font-bold text-sm text-red-600";
+            fillForm(currentContent);
+          }
+
           watchQuotes();
         });
       }
@@ -434,6 +461,9 @@
         onSnapshot(quotesQuery, (snapshot) => {
           allQuotes = snapshot.docs.map((quoteDoc) => ({ id: quoteDoc.id, ...quoteDoc.data() }));
           renderQuotes();
+        }, (error) => {
+          console.error("Could not load quote requests", error);
+          quotesList.innerHTML = `<div class="p-8 text-red-700 font-bold">${escapeHtml(friendlyFirebaseError(error))}</div>`;
         });
       }
 
@@ -494,6 +524,49 @@
         const last = keys.pop();
         const target = keys.reduce((next, key) => (next[key] ??= {}), object);
         target[last] = value;
+      }
+
+      function renderSetupHelp() {
+        const allowedEmails = ownerEmails.join(", ");
+        setupHelp.innerHTML = `
+          <p class="font-bold text-slate-900">Login checks:</p>
+          <ul class="mt-2 list-disc pl-5 space-y-1">
+            <li>Firebase project: <code>${escapeHtml(firebaseConfig.projectId || "missing")}</code></li>
+            <li>Allowed owner emails: <code>${escapeHtml(allowedEmails)}</code></li>
+            <li>The Firebase Authentication user must use one of those exact emails.</li>
+            <li>If sign-in works but dashboard data does not load, publish the Firestore/Storage rules from the README for the same owner email.</li>
+          </ul>`;
+      }
+
+      function isOwnerEmail(email) {
+        return Boolean(email) && ownerEmails.map((ownerEmail) => ownerEmail.toLowerCase()).includes(email.toLowerCase());
+      }
+
+      function setLoginStatus(message, type = "info") {
+        const colorClass = {
+          error: "text-red-600",
+          success: "text-green-700",
+          info: "text-brandOrange",
+        }[type] || "text-brandOrange";
+        loginStatus.textContent = message;
+        loginStatus.className = `text-sm font-bold ${colorClass}`;
+      }
+
+      function friendlyFirebaseError(error) {
+        const code = error?.code || "";
+        const message = error?.message || "Something went wrong. Check the browser console for details.";
+        const messages = {
+          "auth/invalid-credential": "Firebase rejected that email/password. Double-check the Firebase Authentication user email and password.",
+          "auth/user-not-found": "No Firebase Authentication user exists for that email. Add the user in Firebase Authentication first.",
+          "auth/wrong-password": "The password does not match the Firebase Authentication user.",
+          "auth/invalid-email": "Enter a valid email address.",
+          "auth/too-many-requests": "Firebase temporarily blocked sign-in attempts. Wait a bit, then try again or reset the password in Firebase.",
+          "auth/network-request-failed": "Firebase could not be reached. Check your internet connection and try again.",
+          "auth/operation-not-allowed": "Email/password sign-in is not enabled. Turn on Authentication → Sign-in method → Email/Password in Firebase.",
+          "permission-denied": "Signed in, but Firebase security rules denied access. Publish the Firestore/Storage rules from the README and make sure the owner email matches.",
+          "failed-precondition": "Firestore needs an index or database setup. Open the Firebase console error link in the browser console if one is shown.",
+        };
+        return messages[code] || message;
       }
 
       function escapeHtml(value = "") {

@@ -1,15 +1,91 @@
 # Dinkins-Landscaping-
 
-## Firebase-powered quote email flow
+## Owner dashboard and editable website content
 
-The contact form in `index.html` now writes requests to a Firestore `mail` collection in the format expected by Firebase's **Trigger Email** extension.
+This site now includes a simple owner-only dashboard at `admin.html` that can:
 
-### One-time setup
+- Sign the owner in with Firebase Authentication.
+- Show quote requests submitted through the website contact form.
+- Update quote status and owner notes.
+- Edit safer, predefined website content areas such as hero wording, business contact info, services, featured work, photos, and optional custom sections.
+- Upload new portfolio photos to Firebase Storage.
 
-1. In Firebase Console, enable **Cloud Firestore** for project `dinkins-7adf1`.
-2. Install the extension: **Extensions → Trigger Email (firestore-send-email)**.
-3. Configure the extension with your SMTP provider (Gmail, SendGrid, Mailgun, etc.).
-4. In `index.html`, replace `your-email@example.com` with your real business email.
-5. Deploy your site and test by submitting the quote form.
+The public website still has safe default content in `site-content.js`, so the site remains readable even before Firebase is configured. After Firebase is configured, the public website loads editable content from the Firestore document `siteContent/home`, and quote requests are saved in the Firestore collection `quoteRequests`.
 
-When a document is added to `mail`, the extension sends the email to your configured inbox.
+## One-time Firebase setup
+
+1. In Firebase Console, enable **Authentication → Sign-in method → Email/Password**.
+2. Add the owner as a Firebase Authentication user.
+3. Enable **Cloud Firestore** for project `dinkins-7adf1`.
+4. Enable **Cloud Storage for Firebase** for photo uploads.
+5. Open `firebase-config.js` and replace the `REPLACE_WITH_*` values with the Firebase Web App config from **Project settings → Your apps → Web app**.
+6. Update `ownerEmails` in `firebase-config.js` if the owner email should be different.
+7. Publish Firestore and Storage security rules like the examples below.
+8. Deploy the site and visit `admin.html` to sign in.
+
+The Firebase Web App API key is safe to include in this static site. The security boundary is Firebase Authentication plus Firestore/Storage rules, not hiding values in JavaScript.
+
+## Firestore security rules example
+
+Replace `dinkinslandmgmt@gmail.com` if a different owner email is used.
+
+```js
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner() {
+      return request.auth != null &&
+        request.auth.token.email == 'dinkinslandmgmt@gmail.com';
+    }
+
+    match /siteContent/{document=**} {
+      allow read: if true;
+      allow write: if isOwner();
+    }
+
+    match /quoteRequests/{requestId} {
+      allow create: if request.resource.data.keys().hasOnly([
+          'name', 'email', 'phone', 'service', 'message',
+          'status', 'ownerNotes', 'source', 'createdAt', 'updatedAt'
+        ]) &&
+        request.resource.data.name is string &&
+        request.resource.data.name.size() <= 120 &&
+        request.resource.data.email is string &&
+        request.resource.data.email.size() <= 180 &&
+        request.resource.data.phone is string &&
+        request.resource.data.phone.size() <= 80 &&
+        request.resource.data.service is string &&
+        request.resource.data.service.size() <= 120 &&
+        request.resource.data.message is string &&
+        request.resource.data.message.size() <= 3000 &&
+        request.resource.data.status == 'New' &&
+        request.resource.data.ownerNotes == '' &&
+        request.resource.data.source == 'website';
+      allow read, update, delete: if isOwner();
+    }
+  }
+}
+```
+
+## Storage security rules example
+
+```js
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isOwner() {
+      return request.auth != null &&
+        request.auth.token.email == 'dinkinslandmgmt@gmail.com';
+    }
+
+    match /portfolio/{fileName} {
+      allow read: if true;
+      allow write, delete: if isOwner();
+    }
+  }
+}
+```
+
+## Quote email flow
+
+The contact form now first attempts to save the quote request to Firestore for the dashboard, then continues sending the existing Web3Forms email notification. If Firebase has not been configured yet, the form still sends through Web3Forms so the website does not lose its current email behavior.

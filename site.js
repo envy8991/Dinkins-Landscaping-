@@ -1,21 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getFirestore,
-  serverTimestamp,
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-import { firebaseConfig, isFirebaseConfigured } from "./firebase-config.js";
 import { mergeSiteContent } from "./site-content.js";
-
-let db = null;
-
-if (isFirebaseConfigured()) {
-  const app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
-}
 
 const setText = (selector, value, allowHtml = false) => {
   document.querySelectorAll(selector).forEach((element) => {
@@ -106,33 +89,6 @@ function renderSite(content) {
   if (customSections) customSections.innerHTML = content.customSections.map(customSection).join("");
 }
 
-async function loadSiteContent() {
-  if (!db) {
-    renderSite(mergeSiteContent());
-    return;
-  }
-
-  try {
-    const snapshot = await getDoc(doc(db, "siteContent", "home"));
-    renderSite(mergeSiteContent(snapshot.exists() ? snapshot.data() : {}));
-  } catch (error) {
-    console.warn("Could not load editable site content. Showing default content.", error);
-    renderSite(mergeSiteContent());
-  }
-}
-
-window.saveQuoteRequest = async (quoteRequest) => {
-  if (!db) return null;
-  return addDoc(collection(db, "quoteRequests"), {
-    ...quoteRequest,
-    status: "New",
-    ownerNotes: "",
-    source: "website",
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
-};
-
 function escapeHtml(value = "") {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -146,4 +102,4 @@ function escapeAttribute(value = "") {
   return escapeHtml(value).replaceAll("`", "&#096;");
 }
 
-loadSiteContent();
+renderSite(mergeSiteContent());

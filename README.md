@@ -31,6 +31,19 @@ If sign-in succeeds but the dashboard does not load quote requests or editable c
 
 The Firebase Web App API key is safe to include in this static site. The security boundary is Firebase Authentication plus Firestore/Storage rules, not hiding values in JavaScript.
 
+
+### Simplest admin login checklist
+
+The admin page uses the same Firebase project every time: `dinkins-7adf1`. To create or reset an admin login, open Firebase Console for that project and do only these steps:
+
+1. Go to **Authentication → Sign-in method** and make sure **Email/Password** is enabled.
+2. Go to **Authentication → Users** and add or reset a user for either `dinkinslandmgmt@gmail.com` or `qathom8991@gmail.com`.
+3. Deploy this repository with `firebase deploy --only hosting`.
+4. Open `https://dinkins-7adf1.web.app/admin.html` in a fresh browser tab and sign in with that exact email and password.
+5. If you do not know the password, type one of the owner emails on the admin page and click **Email Me a Password Reset**. Firebase will send the reset email if that Authentication user exists.
+
+If Firebase accepts the password but the email is not one of the two owner emails above, the admin page will sign the user back out and show the exact allowed emails.
+
 ## Firestore security rules example
 
 Replace the emails in `ownerEmails` if different owner emails are used. Keep this list in sync with `firebase-config.js`.
@@ -91,6 +104,17 @@ service firebase.storage {
   }
 }
 ```
+
+
+## Deploying to Firebase Hosting
+
+This repository includes `firebase.json` and `.firebaserc` so Firebase deploys the website files from the repository root. Deploy from the same folder that contains `admin.html`, `index.html`, `firebase-config.js`, `site.js`, and `site-content.js`:
+
+```bash
+firebase deploy --only hosting
+```
+
+If deploy says it only found files in a `public` folder, you are either in the wrong folder or using an old local Firebase config. Copy the `firebase.json` and `.firebaserc` from this repository, then rerun the command above. The admin page now has its Firebase login config built directly into `admin.html`, so the login screen does not depend on extra local JavaScript files before it can start.
 
 ## Quote email flow
 

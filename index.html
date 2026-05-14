@@ -295,7 +295,7 @@
               commercial properties with precision, care, and reliable results.
             </p>
             <div
-              class="mt-8 flex flex-wrap gap-3 text-sm font-heading font-black uppercase tracking-wider text-white/90"
+              class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm font-heading font-black uppercase tracking-wider text-white/90 max-w-3xl"
             >
               <span
                 class="rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md"
@@ -313,12 +313,12 @@
                 >Excavation</span
               >
               <span
-                class="rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md"
+                class="rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md text-center sm:col-start-2 lg:col-start-2"
                 ><i class="fa-solid fa-hammer text-brandOrange mr-2"></i
                 >Demolition</span
               >
               <span
-                class="rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md"
+                class="rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md text-center sm:col-span-2 lg:col-span-1 lg:col-start-2"
                 ><i class="fa-solid fa-pen-ruler text-brandOrange mr-2"></i
                 >Landscape Design</span
               >
@@ -439,16 +439,16 @@
             <div
               class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300"
             >
-              <i class="fa-solid fa-trowel-bricks"></i>
+              <i class="fa-solid fa-water"></i>
             </div>
             <h3
               class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight"
             >
-              Hardscaping
+              Drainage
             </h3>
             <p class="text-slate-600 leading-relaxed">
-              Custom retaining walls, drainage solutions, and structural
-              landscaping built to last.
+              Trenching, water control, and drainage solutions that move runoff
+              away from problem areas.
             </p>
           </div>
 
@@ -458,15 +458,16 @@
             <div
               class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300"
             >
-              <i class="fa-solid fa-hammer"></i>
+              <i class="fa-solid fa-mountain-sun"></i>
             </div>
             <h3
               class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight"
             >
-              Demolition
+              Excavation
             </h3>
             <p class="text-slate-600 leading-relaxed">
-              Wreck out and removal from property.
+              Dirt work, grading, and site prep completed with precision for
+              residential and commercial properties.
             </p>
           </div>
 
@@ -486,6 +487,44 @@
             <p class="text-slate-600 leading-relaxed">
               Gravel driveway installs, driveway reconditioning, and
               resurfacing.
+            </p>
+          </div>
+
+          <div
+            class="group glass-card relative p-10 rounded-2xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 lg:col-start-2"
+          >
+            <div
+              class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300"
+            >
+              <i class="fa-solid fa-hammer"></i>
+            </div>
+            <h3
+              class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight"
+            >
+              Demolition
+            </h3>
+            <p class="text-slate-600 leading-relaxed">
+              Wreck out, haul-off, and removal services to clear the way for
+              your next project.
+            </p>
+          </div>
+
+          <div
+            class="group glass-card relative p-10 rounded-2xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+          >
+            <div
+              class="h-16 w-16 rounded-xl bg-orange-50 text-brandOrange flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-brandOrange group-hover:text-white transition-all duration-300"
+            >
+              <i class="fa-solid fa-pen-ruler"></i>
+            </div>
+            <h3
+              class="text-2xl font-black font-heading mb-4 text-brandDark uppercase tracking-tight"
+            >
+              Landscape Design
+            </h3>
+            <p class="text-slate-600 leading-relaxed">
+              Practical landscape planning and finishing touches that make your
+              property look clean, balanced, and ready to enjoy.
             </p>
           </div>
         </div>
@@ -563,9 +602,8 @@
                   </option>
                   <option class="text-slate-800">Excavation / Dirt Work</option>
                   <option class="text-slate-800">Drainage / Trenching</option>
-                  <option class="text-slate-800">
-                    Hardscaping / Retaining Walls
-                  </option>
+                  <option class="text-slate-800">Demolition / Haul-Off</option>
+                  <option class="text-slate-800">Landscape Design</option>
                   <option class="text-slate-800">General Inquiry</option>
                 </select>
 

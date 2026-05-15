@@ -328,20 +328,21 @@
     </script>
 
     <script type="module">
+      const ADMIN_DEPENDENCY_VERSION = "2026-05-15-login-fallback";
+
       loadAdminDependencies();
 
       async function loadAdminDependencies() {
         try {
-          const [appModule, authModule, firestoreModule, storageModule, configModule, contentModule] = await Promise.all([
+          const [appModule, authModule, firestoreModule, storageModule] = await Promise.all([
             import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"),
             import("https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"),
             import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"),
             import("https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js"),
-            importAdminModule("firebase-config.js"),
-            importAdminModule("site-content.js"),
           ]);
+          const { configModule, contentModule, dependencyWarnings } = await loadLocalAdminModules();
 
-          bootAdmin({ appModule, authModule, firestoreModule, storageModule, configModule, contentModule });
+          bootAdmin({ appModule, authModule, firestoreModule, storageModule, configModule, contentModule, dependencyWarnings });
         } catch (error) {
           console.error("Admin dependencies failed to load", error);
           const loginStatus = document.getElementById("loginStatus");
@@ -352,6 +353,30 @@
         }
       }
 
+      async function loadLocalAdminModules() {
+        const dependencyWarnings = [];
+        let configModule;
+        let contentModule;
+
+        try {
+          configModule = await importAdminModule("firebase-config.js");
+        } catch (error) {
+          console.warn("Using embedded Firebase config because firebase-config.js could not be loaded", error);
+          dependencyWarnings.push(`firebase-config.js could not be loaded from this hosting path (${friendlyDependencyError(error)}). The embedded admin config is being used so login can continue.`);
+          configModule = createFallbackConfigModule();
+        }
+
+        try {
+          contentModule = await importAdminModule("site-content.js");
+        } catch (error) {
+          console.warn("Using embedded site content defaults because site-content.js could not be loaded", error);
+          dependencyWarnings.push(`site-content.js could not be loaded from this hosting path (${friendlyDependencyError(error)}). Embedded default content is being used until the file is deployed beside admin.html.`);
+          contentModule = createFallbackContentModule();
+        }
+
+        return { configModule, contentModule, dependencyWarnings };
+      }
+
       async function importAdminModule(fileName) {
         const paths = [new URL(fileName, window.location.href).href];
         if (window.location.origin && window.location.origin !== "null") {
@@ -360,16 +385,118 @@
         let lastError;
         for (const path of [...new Set(paths)]) {
           try {
-            return await import(path);
+            await verifyJavaScriptResponse(path, fileName);
+            const cacheBustedPath = `${path}${path.includes("?") ? "&" : "?"}v=${encodeURIComponent(ADMIN_DEPENDENCY_VERSION)}`;
+            return await import(cacheBustedPath);
           } catch (error) {
             lastError = error;
             console.warn(`Could not load admin dependency from ${path}`, error);
           }
         }
-        throw lastError;
+        throw lastError || new Error(`${fileName} could not be loaded.`);
       }
 
-      function bootAdmin({ appModule, authModule, firestoreModule, storageModule, configModule, contentModule }) {
+      async function verifyJavaScriptResponse(path, fileName) {
+        const response = await fetch(path, { cache: "no-store" });
+        const contentType = response.headers.get("content-type") || "";
+        const body = await response.text();
+        const trimmedBody = body.trimStart().slice(0, 80).toLowerCase();
+
+        if (!response.ok) {
+          throw new Error(`${fileName} returned HTTP ${response.status}.`);
+        }
+        if (trimmedBody.startsWith("<!doctype") || trimmedBody.startsWith("<html")) {
+          throw new Error(`${fileName} returned HTML instead of JavaScript.`);
+        }
+        if (contentType.includes("text/html")) {
+          throw new Error(`${fileName} was served with an HTML content type instead of JavaScript.`);
+        }
+      }
+
+      function createFallbackConfigModule() {
+        const firebaseConfig = {
+          apiKey: "AIzaSyDtl82JalzxfVM5Xzw2OHuAo-kN23IsoiU",
+          authDomain: "dinkins-7adf1.firebaseapp.com",
+          projectId: "dinkins-7adf1",
+          storageBucket: "dinkins-7adf1.firebasestorage.app",
+          messagingSenderId: "7113023718",
+          appId: "1:7113023718:web:240e3b6eb83607b46cdb27",
+          measurementId: "G-PMM52DNM2L",
+        };
+        return {
+          firebaseConfig,
+          ownerEmails: ["dinkinslandmgmt@gmail.com", "qathom8991@gmail.com"],
+          isFirebaseConfigured() {
+            return Object.values(firebaseConfig).every(
+              (value) => typeof value === "string" && value && !value.startsWith("REPLACE_WITH"),
+            );
+          },
+        };
+      }
+
+      function createFallbackContentModule() {
+        const defaultSiteContent = {
+          business: {
+            phoneDisplay: "(731) 694-6818",
+            phoneHref: "tel:7316946818",
+            email: "dinkinslandmgmt@gmail.com",
+            emailHref: "mailto:dinkinslandmgmt@gmail.com",
+            facebookUrl: "https://www.facebook.com/share/1EMjycvWiQ/?mibextid=wwXIfr",
+          },
+          hero: {
+            eyebrow: "Licensed & Insured",
+            titleHtml: 'Expert Land Work, <br /><span class="text-brandOrange">Done Right</span>',
+            description: "From gravel driveways and excavation to small land clearing, grading, and drainage solutions, we prepare residential and commercial properties with precision, care, and reliable results.",
+          },
+          services: {
+            heading: "What We Do",
+            items: [
+              { icon: "fa-tree", title: "Land Clearing", description: "Brush removal, tree clearing, and stump grinding to take back your overgrown property." },
+              { icon: "fa-water", title: "Drainage Solutions", description: "Protect your property with effective drainage solutions designed to prevent standing water, erosion, and foundation issues." },
+              { icon: "fa-mountain-sun", title: "Excavation", description: "Site prep, grading, trenching, and dirt work handled with precision equipment." },
+              { icon: "fa-road", title: "Driveways", description: "Gravel driveway installs, driveway reconditioning, and resurfacing." },
+              { icon: "fa-hammer", title: "Demolition", description: "Wreck out, haul-off, and removal services to clear the way for your next project." },
+              { icon: "fa-pen-ruler", title: "Landscape Design", description: "Custom outdoor designs that combine beauty, function, and value." },
+            ],
+          },
+          portfolio: {
+            eyebrow: "Featured Project",
+            title: "Gravel Driveway Work",
+            description: "Take a look at a completed gravel driveway project by Dinkins Land Management.",
+            ctaText: "Request Driveway Quote",
+            photos: [],
+          },
+          contact: { heading: "Request a Quote", description: "Or give us a call directly at" },
+          footer: { tagline: "Licensed & Insured" },
+          customSections: [],
+        };
+        return {
+          defaultSiteContent,
+          mergeSiteContent(savedContent = {}) {
+            return {
+              ...defaultSiteContent,
+              ...savedContent,
+              business: { ...defaultSiteContent.business, ...(savedContent.business || {}) },
+              hero: { ...defaultSiteContent.hero, ...(savedContent.hero || {}) },
+              services: {
+                ...defaultSiteContent.services,
+                ...(savedContent.services || {}),
+                items: savedContent.services?.items?.length ? savedContent.services.items : defaultSiteContent.services.items,
+              },
+              portfolio: {
+                ...defaultSiteContent.portfolio,
+                ...(savedContent.portfolio || {}),
+                photos: savedContent.portfolio?.photos?.length ? savedContent.portfolio.photos : defaultSiteContent.portfolio.photos,
+              },
+              contact: { ...defaultSiteContent.contact, ...(savedContent.contact || {}) },
+              footer: { ...defaultSiteContent.footer, ...(savedContent.footer || {}) },
+              customSections: savedContent.customSections || defaultSiteContent.customSections,
+            };
+          },
+        };
+      }
+
+      function bootAdmin({ appModule, authModule, firestoreModule, storageModule, configModule, contentModule, dependencyWarnings = [] }) {
         const { initializeApp } = appModule;
         const {
           browserLocalPersistence,
@@ -413,6 +540,9 @@
       let keepAuthMessage = false;
 
       renderSetupHelp();
+      if (dependencyWarnings.length) {
+        setLoginStatus(dependencyWarnings.join(" "), "info");
+      }
 
       if (!isFirebaseConfigured()) {
         configWarning.classList.remove("hidden");
@@ -742,8 +872,8 @@
 
       function friendlyDependencyError(error) {
         const message = error?.message || String(error || "Unknown dependency load error.");
-        if (message.includes("Unexpected token '<'")) {
-          return "A JavaScript file loaded as HTML instead of code. Refresh once, then make sure firebase-config.js and site-content.js are deployed beside admin.html.";
+        if (message.includes("Unexpected token '<'") || message.includes("returned HTML") || message.includes("HTML content type")) {
+          return "A JavaScript file loaded as HTML instead of code. The admin page can now continue with embedded fallbacks, but firebase-config.js and site-content.js should still be deployed beside admin.html.";
         }
         return message;
       }

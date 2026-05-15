@@ -66,105 +66,158 @@
         </form>
       </section>
 
-      <section id="dashboard" class="hidden space-y-8">
-        <div class="grid md:grid-cols-4 gap-4">
-          <div class="rounded-3xl bg-white p-6 shadow border border-slate-200">
-            <p class="text-xs uppercase tracking-widest font-heading font-black text-slate-500">Total Requests</p>
-            <p id="totalQuotes" class="text-4xl font-heading font-black text-brandDark mt-2">0</p>
-          </div>
-          <div class="rounded-3xl bg-white p-6 shadow border border-slate-200">
-            <p class="text-xs uppercase tracking-widest font-heading font-black text-slate-500">New</p>
-            <p id="newQuotes" class="text-4xl font-heading font-black text-brandOrange mt-2">0</p>
-          </div>
-          <div class="rounded-3xl bg-white p-6 shadow border border-slate-200 md:col-span-2">
-            <p class="text-xs uppercase tracking-widest font-heading font-black text-slate-500">Signed In</p>
-            <p id="signedInAs" class="text-lg font-bold mt-2 break-all"></p>
-          </div>
-        </div>
-
-        <div class="rounded-3xl bg-white shadow-xl border border-slate-200 overflow-hidden">
-          <div class="border-b border-slate-200 p-6 md:p-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <section id="dashboard" class="hidden space-y-6">
+        <div class="rounded-[2rem] bg-gradient-to-br from-brandDark to-slate-800 p-6 md:p-8 text-white shadow-xl">
+          <div class="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <p class="text-xs uppercase tracking-[0.3em] font-heading font-black text-brandOrange">Quote Requests</p>
-              <h2 class="font-heading text-3xl font-black uppercase mt-1">Form Submissions</h2>
+              <p class="text-xs uppercase tracking-[0.28em] text-brandOrange font-heading font-black">Owner Dashboard</p>
+              <h2 class="mt-2 font-heading text-3xl md:text-4xl font-black uppercase">Manage the essentials</h2>
+              <p class="mt-3 max-w-2xl text-white/75">Start with new quote requests, then open only the website section you want to update. Everything else stays tucked away until you need it.</p>
             </div>
-            <select id="statusFilter" class="rounded-xl border border-slate-300 px-4 py-3 font-bold">
-              <option value="all">All statuses</option>
-              <option>New</option>
-              <option>Contacted</option>
-              <option>Scheduled</option>
-              <option>Completed</option>
-              <option>Archived</option>
-            </select>
+            <div class="rounded-2xl bg-white/10 p-4 text-sm text-white/85">
+              <p class="font-heading font-black uppercase text-white">Signed in</p>
+              <p id="signedInAs" class="mt-1 break-all font-bold"></p>
+            </div>
           </div>
-          <div id="quotesList" class="divide-y divide-slate-200"></div>
         </div>
 
-        <form id="contentForm" class="rounded-3xl bg-white shadow-xl border border-slate-200 overflow-hidden">
-          <div class="border-b border-slate-200 p-6 md:p-8">
-            <p class="text-xs uppercase tracking-[0.3em] font-heading font-black text-brandOrange">Website Editor</p>
-            <h2 class="font-heading text-3xl font-black uppercase mt-1">Content, Photos & Sections</h2>
-            <p class="text-slate-600 mt-2">Keep changes simple and safe by editing predefined areas. Click Save Website Changes when finished.</p>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="stat-card">
+            <div class="stat-icon bg-orange-100 text-brandOrange"><i class="fa-solid fa-inbox"></i></div>
+            <div>
+              <p class="stat-label">Total Requests</p>
+              <p id="totalQuotes" class="stat-value text-brandDark">0</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon bg-green-100 text-brandGreen"><i class="fa-solid fa-bell"></i></div>
+            <div>
+              <p class="stat-label">New Requests</p>
+              <p id="newQuotes" class="stat-value text-brandOrange">0</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon bg-slate-100 text-slate-700"><i class="fa-solid fa-list-check"></i></div>
+            <div>
+              <p class="stat-label">Simple workflow</p>
+              <p class="text-sm font-bold text-slate-600">Review, update status, save notes.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-3xl bg-white shadow-lg border border-slate-200 overflow-hidden">
+          <div class="section-header">
+            <div>
+              <p class="eyebrow">Quote Requests</p>
+              <h2 class="section-title">Form Submissions</h2>
+              <p class="section-help">New customer requests appear here automatically. Use the filter only when the list gets busy.</p>
+            </div>
+            <label class="min-w-48">
+              <span class="label">Filter requests</span>
+              <select id="statusFilter" class="input bg-white">
+                <option value="all">All statuses</option>
+                <option>New</option>
+                <option>Contacted</option>
+                <option>Scheduled</option>
+                <option>Completed</option>
+                <option>Archived</option>
+              </select>
+            </label>
+          </div>
+          <div id="quotesList" class="divide-y divide-slate-100"></div>
+        </div>
+
+        <form id="contentForm" class="rounded-3xl bg-white shadow-lg border border-slate-200 overflow-hidden">
+          <div class="section-header border-b-0">
+            <div>
+              <p class="eyebrow">Website Editor</p>
+              <h2 class="section-title">Update One Area at a Time</h2>
+              <p class="section-help">Open a section, make your edits, then click Save Website Changes. Most owners only need Business Info, Hero Wording, and Photos.</p>
+            </div>
+            <div class="rounded-2xl bg-orange-50 px-4 py-3 text-sm font-bold text-orange-900">
+              <i class="fa-solid fa-lightbulb mr-2 text-brandOrange"></i>Tip: closed sections are still saved safely.
+            </div>
           </div>
 
-          <div class="p-6 md:p-8 space-y-10">
-            <section class="grid md:grid-cols-2 gap-5">
-              <h3 class="md:col-span-2 font-heading text-2xl font-black uppercase">Business Info</h3>
-              <label class="block"><span class="label">Phone display</span><input name="business.phoneDisplay" class="input" /></label>
-              <label class="block"><span class="label">Phone link</span><input name="business.phoneHref" class="input" /></label>
-              <label class="block"><span class="label">Email</span><input name="business.email" class="input" /></label>
-              <label class="block"><span class="label">Email link</span><input name="business.emailHref" class="input" /></label>
-              <label class="block md:col-span-2"><span class="label">Facebook URL</span><input name="business.facebookUrl" class="input" /></label>
-            </section>
+          <div class="px-4 pb-6 md:px-8 md:pb-8 space-y-4">
+            <details class="admin-section" open>
+              <summary>
+                <span><i class="fa-solid fa-address-card"></i> Business Info</span>
+                <small>Phone, email, and Facebook link</small>
+              </summary>
+              <div class="admin-section-body grid md:grid-cols-2 gap-5">
+                <label class="block"><span class="label">Phone display</span><input name="business.phoneDisplay" class="input" /></label>
+                <label class="block"><span class="label">Phone link</span><input name="business.phoneHref" class="input" /></label>
+                <label class="block"><span class="label">Email</span><input name="business.email" class="input" /></label>
+                <label class="block"><span class="label">Email link</span><input name="business.emailHref" class="input" /></label>
+                <label class="block md:col-span-2"><span class="label">Facebook URL</span><input name="business.facebookUrl" class="input" /></label>
+              </div>
+            </details>
 
-            <section class="grid md:grid-cols-2 gap-5">
-              <h3 class="md:col-span-2 font-heading text-2xl font-black uppercase">Hero & Contact Wording</h3>
-              <label class="block"><span class="label">Hero eyebrow</span><input name="hero.eyebrow" class="input" /></label>
-              <label class="block"><span class="label">Hero title HTML</span><input name="hero.titleHtml" class="input" /></label>
-              <label class="block md:col-span-2"><span class="label">Hero description</span><textarea name="hero.description" rows="3" class="input"></textarea></label>
-              <label class="block"><span class="label">Contact heading</span><input name="contact.heading" class="input" /></label>
-              <label class="block"><span class="label">Contact description</span><input name="contact.description" class="input" /></label>
-              <label class="block md:col-span-2"><span class="label">Footer tagline</span><input name="footer.tagline" class="input" /></label>
-            </section>
+            <details class="admin-section">
+              <summary>
+                <span><i class="fa-solid fa-bullhorn"></i> Main Page Wording</span>
+                <small>Hero, contact, and footer text</small>
+              </summary>
+              <div class="admin-section-body grid md:grid-cols-2 gap-5">
+                <label class="block"><span class="label">Hero eyebrow</span><input name="hero.eyebrow" class="input" /></label>
+                <label class="block"><span class="label">Hero title HTML</span><input name="hero.titleHtml" class="input" /></label>
+                <label class="block md:col-span-2"><span class="label">Hero description</span><textarea name="hero.description" rows="3" class="input"></textarea></label>
+                <label class="block"><span class="label">Contact heading</span><input name="contact.heading" class="input" /></label>
+                <label class="block"><span class="label">Contact description</span><input name="contact.description" class="input" /></label>
+                <label class="block md:col-span-2"><span class="label">Footer tagline</span><input name="footer.tagline" class="input" /></label>
+              </div>
+            </details>
 
-            <section>
-              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-                <div>
-                  <h3 class="font-heading text-2xl font-black uppercase">Services</h3>
-                  <label class="block mt-3"><span class="label">Services heading</span><input name="services.heading" class="input max-w-md" /></label>
+            <details class="admin-section">
+              <summary>
+                <span><i class="fa-solid fa-seedling"></i> Services</span>
+                <small>Service cards shown on the website</small>
+              </summary>
+              <div class="admin-section-body space-y-5">
+                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                  <label class="block flex-1 max-w-xl"><span class="label">Services heading</span><input name="services.heading" class="input" /></label>
+                  <button type="button" id="addService" class="secondary-button">Add Service</button>
                 </div>
-                <button type="button" id="addService" class="secondary-button">Add Service</button>
+                <div id="servicesEditor" class="space-y-4"></div>
               </div>
-              <div id="servicesEditor" class="space-y-4"></div>
-            </section>
+            </details>
 
-            <section>
-              <div class="grid md:grid-cols-2 gap-5 mb-5">
-                <h3 class="md:col-span-2 font-heading text-2xl font-black uppercase">Featured Work & Photos</h3>
-                <label class="block"><span class="label">Eyebrow</span><input name="portfolio.eyebrow" class="input" /></label>
-                <label class="block"><span class="label">Title</span><input name="portfolio.title" class="input" /></label>
-                <label class="block md:col-span-2"><span class="label">Description</span><textarea name="portfolio.description" rows="3" class="input"></textarea></label>
-                <label class="block"><span class="label">Button text</span><input name="portfolio.ctaText" class="input" /></label>
+            <details class="admin-section">
+              <summary>
+                <span><i class="fa-solid fa-images"></i> Featured Work & Photos</span>
+                <small>Gallery wording and portfolio images</small>
+              </summary>
+              <div class="admin-section-body space-y-5">
+                <div class="grid md:grid-cols-2 gap-5">
+                  <label class="block"><span class="label">Eyebrow</span><input name="portfolio.eyebrow" class="input" /></label>
+                  <label class="block"><span class="label">Title</span><input name="portfolio.title" class="input" /></label>
+                  <label class="block md:col-span-2"><span class="label">Description</span><textarea name="portfolio.description" rows="3" class="input"></textarea></label>
+                  <label class="block"><span class="label">Button text</span><input name="portfolio.ctaText" class="input" /></label>
+                </div>
+                <div class="flex justify-end"><button type="button" id="addPhoto" class="secondary-button">Add Photo</button></div>
+                <div id="photosEditor" class="space-y-4"></div>
               </div>
-              <div class="flex justify-end mb-4"><button type="button" id="addPhoto" class="secondary-button">Add Photo</button></div>
-              <div id="photosEditor" class="space-y-4"></div>
-            </section>
+            </details>
 
-            <section>
-              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-                <div>
-                  <h3 class="font-heading text-2xl font-black uppercase">Custom Sections</h3>
+            <details class="admin-section">
+              <summary>
+                <span><i class="fa-solid fa-layer-group"></i> Optional Custom Sections</span>
+                <small>Advanced sections you can show or hide</small>
+              </summary>
+              <div class="admin-section-body space-y-5">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <p class="text-slate-600">Add optional sections without changing code. Leave disabled to hide a section.</p>
+                  <button type="button" id="addSection" class="secondary-button">Add Section</button>
                 </div>
-                <button type="button" id="addSection" class="secondary-button">Add Section</button>
+                <div id="sectionsEditor" class="space-y-4"></div>
               </div>
-              <div id="sectionsEditor" class="space-y-4"></div>
-            </section>
+            </details>
           </div>
 
           <div class="sticky bottom-0 bg-white/95 backdrop-blur border-t border-slate-200 p-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <p id="saveStatus" class="font-bold text-sm"></p>
-            <button type="submit" class="rounded-xl bg-brandOrange px-8 py-4 font-heading font-black uppercase text-white hover:bg-orange-600">Save Website Changes</button>
+            <p id="saveStatus" class="font-bold text-sm text-slate-600">Open a section above, make changes, then save.</p>
+            <button type="submit" class="rounded-xl bg-brandOrange px-8 py-4 font-heading font-black uppercase text-white hover:bg-orange-600 shadow-lg shadow-orange-500/20">Save Website Changes</button>
           </div>
         </form>
       </section>
@@ -211,12 +264,35 @@
 
     <style>
       body { font-family: "Roboto", sans-serif; }
-      .label { display: block; font-size: 0.75rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: #475569; margin-bottom: 0.45rem; }
-      .input { width: 100%; border-radius: 0.75rem; border: 1px solid #cbd5e1; padding: 0.85rem 1rem; outline: none; }
-      .input:focus { border-color: #ff6b00; box-shadow: 0 0 0 1px #ff6b00; }
+      .eyebrow { color: #ff6b00; font-family: Montserrat, sans-serif; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.24em; text-transform: uppercase; }
+      .section-title { color: #111111; font-family: Montserrat, sans-serif; font-size: clamp(1.55rem, 2.4vw, 2.15rem); font-weight: 900; line-height: 1.05; text-transform: uppercase; }
+      .section-help { color: #64748b; margin-top: 0.5rem; max-width: 42rem; }
+      .section-header { align-items: center; border-bottom: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 1rem; justify-content: space-between; padding: 1.5rem; }
+      .stat-card { align-items: center; background: white; border: 1px solid #e2e8f0; border-radius: 1.5rem; box-shadow: 0 12px 30px rgb(15 23 42 / 0.06); display: flex; gap: 1rem; padding: 1.25rem; }
+      .stat-icon { align-items: center; border-radius: 1rem; display: inline-flex; flex: 0 0 auto; height: 3rem; justify-content: center; width: 3rem; }
+      .stat-label { color: #64748b; font-family: Montserrat, sans-serif; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+      .stat-value { font-family: Montserrat, sans-serif; font-size: 2rem; font-weight: 900; line-height: 1; margin-top: 0.25rem; }
+      .label { display: block; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; color: #475569; margin-bottom: 0.45rem; }
+      .input { width: 100%; border-radius: 0.9rem; border: 1px solid #cbd5e1; padding: 0.85rem 1rem; outline: none; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+      .input:focus { border-color: #ff6b00; box-shadow: 0 0 0 3px rgb(255 107 0 / 0.14); }
+      .admin-section { border: 1px solid #e2e8f0; border-radius: 1.35rem; background: #f8fafc; overflow: hidden; }
+      .admin-section[open] { background: white; box-shadow: 0 14px 35px rgb(15 23 42 / 0.07); }
+      .admin-section summary { align-items: center; cursor: pointer; display: flex; gap: 0.75rem; justify-content: space-between; list-style: none; padding: 1.1rem 1.25rem; }
+      .admin-section summary::-webkit-details-marker { display: none; }
+      .admin-section summary span { align-items: center; color: #111111; display: inline-flex; gap: 0.65rem; font-family: Montserrat, sans-serif; font-weight: 900; text-transform: uppercase; }
+      .admin-section summary span i { color: #ff6b00; width: 1.2rem; }
+      .admin-section summary small { color: #64748b; font-weight: 700; text-align: right; }
+      .admin-section summary::after { color: #ff6b00; content: "\f078"; font-family: "Font Awesome 6 Free"; font-weight: 900; transition: transform 0.2s ease; }
+      .admin-section[open] summary::after { transform: rotate(180deg); }
+      .admin-section-body { border-top: 1px solid #e2e8f0; padding: 1.25rem; }
       .editor-card { border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 1.25rem; padding: 1rem; }
-      .secondary-button { border-radius: 9999px; background: #111111; color: white; padding: 0.75rem 1.25rem; font-family: Montserrat, sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.78rem; }
+      .secondary-button { border-radius: 9999px; background: #111111; color: white; padding: 0.75rem 1.25rem; font-family: Montserrat, sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.78rem; transition: transform 0.2s ease, background 0.2s ease; }
+      .secondary-button:hover { background: #2b591b; transform: translateY(-1px); }
       .danger-button { border-radius: 9999px; background: #fee2e2; color: #991b1b; padding: 0.75rem 1rem; font-family: Montserrat, sans-serif; font-weight: 900; text-transform: uppercase; font-size: 0.78rem; }
+      .danger-button:hover { background: #fecaca; }
+      @media (min-width: 768px) {
+        .section-header { flex-direction: row; padding: 2rem; }
+      }
     </style>
 
     <script>

@@ -328,37 +328,56 @@
     </script>
 
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-      import {
-        browserLocalPersistence,
-        getAuth,
-        onAuthStateChanged,
-        setPersistence,
-        signInWithEmailAndPassword,
-        signOut,
-      } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-      import {
-        collection,
-        deleteDoc,
-        doc,
-        getDoc,
-        getFirestore,
-        onSnapshot,
-        orderBy,
-        query,
-        serverTimestamp,
-        setDoc,
-        updateDoc,
-      } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-      import {
-        getDownloadURL,
-        getStorage,
-        ref,
-        uploadBytes,
-      } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
-      import { firebaseConfig, isFirebaseConfigured, ownerEmails } from "/firebase-config.js";
-      import { defaultSiteContent, mergeSiteContent } from "/site-content.js";
+      loadAdminDependencies();
 
+      async function loadAdminDependencies() {
+        try {
+          const [appModule, authModule, firestoreModule, storageModule, configModule, contentModule] = await Promise.all([
+            import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"),
+            import("https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js"),
+            import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js"),
+            import("https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js"),
+            import("./firebase-config.js"),
+            import("./site-content.js"),
+          ]);
+
+          bootAdmin({ appModule, authModule, firestoreModule, storageModule, configModule, contentModule });
+        } catch (error) {
+          console.error("Admin dependencies failed to load", error);
+          const loginStatus = document.getElementById("loginStatus");
+          if (loginStatus) {
+            loginStatus.textContent = `Admin setup failed before login: ${friendlyDependencyError(error)}`;
+            loginStatus.className = "text-sm font-bold text-red-600";
+          }
+        }
+      }
+
+      function bootAdmin({ appModule, authModule, firestoreModule, storageModule, configModule, contentModule }) {
+        const { initializeApp } = appModule;
+        const {
+          browserLocalPersistence,
+          getAuth,
+          onAuthStateChanged,
+          setPersistence,
+          signInWithEmailAndPassword,
+          signOut,
+        } = authModule;
+        const {
+          collection,
+          deleteDoc,
+          doc,
+          getDoc,
+          getFirestore,
+          onSnapshot,
+          orderBy,
+          query,
+          serverTimestamp,
+          setDoc,
+          updateDoc,
+        } = firestoreModule;
+        const { getDownloadURL, getStorage, ref, uploadBytes } = storageModule;
+        const { firebaseConfig, isFirebaseConfigured, ownerEmails } = configModule;
+        const { defaultSiteContent, mergeSiteContent } = contentModule;
       const loginPanel = document.getElementById("loginPanel");
       const dashboard = document.getElementById("dashboard");
       const configWarning = document.getElementById("configWarning");
@@ -701,6 +720,15 @@
 
       function escapeAttribute(value = "") {
         return escapeHtml(value).replaceAll("`", "&#096;");
+      }
+      }
+
+      function friendlyDependencyError(error) {
+        const message = error?.message || String(error || "Unknown dependency load error.");
+        if (message.includes("Unexpected token '<'")) {
+          return "A JavaScript file loaded as HTML instead of code. Refresh once, then make sure firebase-config.js and site-content.js are deployed beside admin.html.";
+        }
+        return message;
       }
     </script>
   </body>
